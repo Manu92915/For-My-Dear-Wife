@@ -2,294 +2,1055 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Manuchehr & 𝒮𝒽𝓊𝓀𝓇ℴ𝓃𝒶 — Наш сайт</title>
   <style>
-    /* ========== Reset & fonts ========== */
+    /* Fonts & reset */
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600&display=swap');
-    *{box-sizing:border-box} body,html{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    *{box-sizing:border-box} 
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+      background:linear-gradient(135deg,#ffd7e6 0%, #fbe8ff 40%, #fff6e6 100%);
+      color:#222;
+    }
 
-    /* ========== Layout ========== */
-    body{background:linear-gradient(135deg,#ffd7e6 0%, #fbe8ff 40%, #fff6e6 100%);color:#222;overflow:hidden}
-    .app{position:relative;min-height:100vh;display:flex;flex-direction:column}
-    header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;backdrop-filter:blur(6px);}
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{width:56px;height:56px;border-radius:999px;background:rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
-    .logo .initials{font-family:'Great Vibes',cursive;font-size:22px;color:#a42b6a}
-    .title{line-height:1}
-    .title .names{font-family:'Great Vibes',cursive;font-size:20px;color:#9b2d69}
-    .title .sub{font-size:12px;color:#6b4655;margin-top:2px}
+    /* Header */
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;position:sticky;top:0;
+      background:rgba(255,255,255,0.55);backdrop-filter:blur(6px);
+      z-index:40
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Great Vibes';font-size:22px;color:#a93778;
+      background:rgba(255,255,255,0.8);box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .title .names{font-family:'Great Vibes';font-size:18px;color:#8c2f62}
+    .title .sub{font-size:12px;color:#6b4a54}
 
-    /* ========== Tabs ========== */
-    nav.tabs{display:flex;gap:10px}
-    .tab{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.5);cursor:pointer;font-weight:600}
-    .tab.active{background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));box-shadow:0 4px 18px rgba(154,40,100,0.12)}
+    /* Tabs */
+    nav.tabs{display:flex;gap:8px}
+    .tab{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.6);
+      cursor:pointer;font-weight:600;transition:transform .15s,background .2s}
+    .tab:active{transform:scale(.98)}
+    .tab.active{
+      background:linear-gradient(90deg,#ffffff,#fff0f6);
+      color:#8c2f62;box-shadow:0 6px 20px rgba(139,45,86,0.08)
+    }
 
-    /* ========== Main container ========== */
-    main{flex:1;position:relative;padding:28px;display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start}
-    .card{background:rgba(255,255,255,0.75);border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(153,52,93,0.07)}
+    /* Burger for mobile */
+    #menuBtn{display:none;font-size:26px;color:#8c2f62;cursor:pointer}
+    @media(max-width:760px){
+      #menuBtn{display:block}
+      nav.tabs{
+        display:none;position:absolute;top:64px;right:12px;background:rgba(255,255,255,0.95);
+        flex-direction:column;padding:10px;border-radius:12px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.12);max-width:85vw
+      }
+      nav.tabs.show{display:flex}
+    }
 
-    /* ========== Hero / Countdown ========== */
-    .hero{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-    .hero h1{font-family:'Great Vibes',cursive;font-size:44px;margin:0;color:#7a2b57}
-    .hero p{margin:0;color:#5c3b45}
-    .countdown{display:flex;gap:12px;margin-top:6px}
-    .countdown .unit{min-width:86px;padding:12px;border-radius:12px;background:rgba(255,255,255,0.9);text-align:center}
-    .countdown .num{font-size:26px;font-weight:700;color:#6b2650}
-    .countdown .lbl{font-size:12px;color:#8a6a77}
+    /* Layout */
+    main{
+      display:grid;grid-template-columns:1fr 350px;gap:18px;padding:20px;
+      align-items:start;min-height:calc(100vh - 110px)
+    }
+    @media(max-width:900px){main{grid-template-columns:1fr;padding:14px}}
+    .card{
+      background:rgba(255,255,255,0.8);padding:18px;border-radius:14px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.06)
+    }
 
-    /* ========== Sidebar small info ========== */
-    .sidebar{position:sticky;top:24px}
-    .photo-placeholder{width:100%;height:220px;border-radius:12px;background:linear-gradient(180deg,#fff4f8,#fffbf2);display:flex;align-items:center;justify-content:center;color:#b87b9b}
-    .note{margin-top:12px;color:#6b4655;font-size:14px}
+    /* Hero */
+    h1{font-family:'Great Vibes';font-size:44px;margin:0;color:#7a2b57}
+    p.lead{margin:8px 0;color:#5c3b45}
 
-    /* ========== Calendar grid ========== */
+    /* Countdown */
+    .countdown{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .unit{min-width:78px;background:white;border-radius:12px;padding:10px;text-align:center}
+    .unit .num{font-size:22px;font-weight:800;color:#6b2650}
+    .unit .lbl{font-size:12px;color:#8a6a77}
+
+    /* Calendar */
     .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-    .day{padding:18px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));cursor:pointer;text-align:center}
-    .day .num{font-weight:700;color:#6b2650}
-    .day .dot{margin-top:8px;height:6px;width:6px;border-radius:999px;background:#eaa6c9;margin-left:auto;margin-right:auto}
+    @media(max-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+    /* Блок дня — крупнее для мобильной эстетики */
+    .day {
+      padding: 18px;
+      border-radius: 14px;
+      background: white;
+      text-align: center;
+      position: relative;
+      transition: transform 0.12s ease, box-shadow 0.20s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      font-size: 15px;
+    }
 
-    /* ========== Dreams & Likes ========== */
-    .dreams-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    .dream{padding:12px;border-radius:12px;background:rgba(255,255,255,0.9)}
+    /* Анимация при тапе */
+    .day:active {
+      transform: scale(1.06);
+      box-shadow: 0 6px 18px rgba(139,45,86,0.15);
+    }
 
-    /* ========== Modal ========== */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(12,6,10,0.45);display:flex;align-items:center;justify-content:center;z-index:60}
-    .modal{width:min(720px,96%);background:white;border-radius:14px;padding:18px}
-    .modal h3{margin:0 0 8px 0}
-    .form-row{display:flex;gap:8px;margin-top:10px}
-    textarea{width:100%;height:110px;border-radius:8px;padding:10px;border:1px solid #eee}
-    input[type=text]{padding:8px;border-radius:8px;border:1px solid #eee;width:100%}
-    .btn{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#f9d6e8,#ffd6e2);cursor:pointer;border:none;font-weight:600}
+    /* Номер дня жирный */
+    .day .num {
+      font-weight: 700;
+      color: #6b2650;
+    }
 
-    /* ========== Footer controls ========== */
-    footer{padding:14px 24px;color:#7a3650;text-align:center;font-size:13px}
+    /* Закрытые дни */
+    .day.locked {
+      background: #f7f0f4;
+      opacity: 0.55;
+      filter: grayscale(0.6);
+    }
 
-    /* ========== Hearts Canvas ========== */
-    #hearts{position:fixed;inset:0;pointer-events:none;z-index:1}
-    .content-layer{position:relative;z-index:10}
+    /* Яркий замочек — видно сразу! */
+    .day.locked::after{
+  content:"🔒";
+  position:absolute;
+  bottom:6px;      /* бантик внизу */
+  left:50%;
+  transform:translateX(-50%);
+  font-size:20px;
+  opacity:0.9;
+}
 
-    /* ========== Responsive ========== */
-    @media (max-width:900px){main{grid-template-columns:1fr;}.sidebar{order:2}.hero h1{font-size:34px}.countdown .unit{min-width:60px}}
+
+    /* Открытые дни — нежная рамка */
+    .day:not(.locked) {
+      border: 2px solid #ffd6e7;
+    }
+
+    /* Заполненные дни — сердечко */
+    .day.filled::after {
+     
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-size: 17px;
+      opacity: 0.85;
+    }
+
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,0.45);
+      display:flex;align-items:center;justify-content:center;
+      z-index:90;
+    }
+    .modal{
+      width:min(780px,96%);
+      background:white;border-radius:12px;padding:16px;
+    }
+    textarea,input{
+      width:100%;padding:10px;border-radius:8px;
+      border:1px solid #e8dfe6;margin-top:8px
+    }
+    .modal .actions{
+      display:flex;gap:8px;justify-content:flex-end;margin-top:10px
+    }
+
+    /* Fade transition */
+    .fade{opacity:0;transition:opacity .35s ease,transform .35s ease;transform:translateY(6px)}
+    .fade.show{opacity:1;transform:none}
+
+    /* Hearts canvas */
+    #hearts{position:fixed;inset:0;pointer-events:none;z-index:5}
+
+    footer{padding:14px;text-align:center;color:#7a3650}
+    /* CSS для всплывающих сердечек */
+    .heart-pop {
+      position: absolute;
+      pointer-events: none;
+      font-size: 18px;
+      animation: heartFloat 1s ease-out forwards;
+      opacity: 0;
+      z-index: 99999;          /* ❤️ поверх всего */
+      transform-origin: center;
+    }
+
+
+    @keyframes heartFloat {
+      0% { transform: translateY(0) scale(0.8); opacity: 1; }
+      50% { transform: translateY(-20px) scale(1); opacity: 1; }
+      100% { transform: translateY(-40px) scale(1.25); opacity: 0; }
+    }
+
+    .modal-heart {
+      position: fixed;
+      font-size: 35px;
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0;
+      animation: floatModalHearts 1.4s ease-out forwards;
+    }
+
+    @keyframes floatModalHearts {
+      0%   { transform: translateY(0) scale(0.9); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translateY(-60px) scale(1.3); opacity: 0; }
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ffb8d8, #ffdae9);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #7a2b57;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 12px rgba(139, 45, 86, 0.15);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(139, 45, 86, 0.25);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-heart {
+      position: absolute;
+      font-size: 18px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(0) scale(0.8);
+      animation: btnHeartFloat 0.8s ease-out forwards;
+      z-index: 999999;
+    }
+
+    @keyframes btnHeartFloat {
+      0%   { opacity: 1; transform: translateY(0) scale(0.9); }
+      70%  { opacity: 1; transform: translateY(-22px) scale(1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
+    }
+
+
+    /* Анимация появления модалки */
+    .modal-backdrop {
+      animation: backdropFadeIn 0.35s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes backdropFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal {
+      animation: modalShow 0.35s ease forwards;
+      transform: translateY(20px) scale(0.96);
+      opacity: 0;
+    }
+
+    @keyframes modalShow {
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Анимация исчезновения */
+    .modal-backdrop.hide {
+      animation: backdropFadeOut 0.3s ease forwards;
+    }
+
+    @keyframes backdropFadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    .modal.hide {
+      animation: modalHide 0.3s ease forwards;
+    }
+
+    @keyframes modalHide {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(20px) scale(0.96);
+        opacity: 0;
+      }
+    }
+
+
   </style>
 </head>
 <body>
+
   <canvas id="hearts"></canvas>
-  <div class="app content-layer">
-    <header>
-      <div class="brand">
-        <div class="logo"><div class="initials">M&S</div></div>
-        <div class="title">
-          <div class="names">Manuchehr &amp; 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶 <span style="font-size:12px;color:#a36a86">(Shuki)</span></div>
-          <div class="sub">Для тебя — небольшой мир тепла и мыслей</div>
-        </div>
+
+  <header>
+    <div class="brand">
+      <div class="logo">M&S</div>
+      <div class="title">
+        <div class="names">Manuchehr & 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶 (Shuki)</div>
+        <div class="sub">Мир, созданный только для нас</div>
       </div>
-      <nav class="tabs">
-        <div class="tab active" data-tab="home">Главная</div>
-        <div class="tab" data-tab="thoughts">Мои мысли</div>
-        <div class="tab" data-tab="dreams">Наши мечты</div>
-        <div class="tab" data-tab="likes">Наши одинаковости</div>
-      </nav>
-    </header>
+    </div>
+    <div id="menuBtn">☰</div>
 
-    <main>
-      <section class="card hero" id="home-card">
-        <h1>Мы скоро будем вместе</h1>
-        <p>Каждый день — список маленьких мыслей и больших планов. Счётчик до нашей свадьбы:</p>
-        <div class="countdown" aria-hidden="false">
-          <div class="unit"><div class="num" id="days">--</div><div class="lbl">Дней</div></div>
-          <div class="unit"><div class="num" id="hours">--</div><div class="lbl">Часов</div></div>
-          <div class="unit"><div class="num" id="minutes">--</div><div class="lbl">Минут</div></div>
-          <div class="unit"><div class="num" id="seconds">--</div><div class="lbl">Секунд</div></div>
-        </div>
+    <nav class="tabs" id="navTabs">
+      <div class="tab active" data-tab="home">Главная</div>
+      <div class="tab" data-tab="thoughts">Мои мысли</div>
+      <div class="tab" data-tab="dreams">Наши мечты</div>
+      <div class="tab" data-tab="likes">Наши маленькие совпадения</div>
+    </nav>
+  </header>
 
-        <div style="margin-top:18px">
-          <button class="btn" id="open-thoughts">Открыть "Мои мысли"</button>
-        </div>
-      </section>
+  <main>
+    <section id="home" class="card fade">
+      <h1>Мы скоро будем вместе</h1>
+      <p class="lead">Каждый день — маленькая мысль, большое чувство. Счётчик до нашей свадьбы:</p>
 
-      <aside class="sidebar">
-        <div class="card photo-placeholder">Вашей общей фотографии ещё нет — можно добавить позже</div>
-        <div class="card note">Совет: после загрузки сайта на GitHub Pages можно редактировать дневник прямо в браузере — все записи сохраняются в браузере (LocalStorage).</div>
-      </aside>
+      <div class="countdown">
+        <div class="unit"><div class="num" id="days">--</div><div class="lbl">Дней</div></div>
+        <div class="unit"><div class="num" id="hours">--</div><div class="lbl">Часов</div></div>
+        <div class="unit"><div class="num" id="minutes">--</div><div class="lbl">Минут</div></div>
+        <div class="unit"><div class="num" id="seconds">--</div><div class="lbl">Секунд</div></div>
+      </div>
 
-      <!-- Thoughts (calendar) -->
-      <section class="card" id="thoughts-card" style="display:none">
-        <h2>Мои мысли — 30 дней</h2>
-        <p>Кликни на номер дня, чтобы добавить или прочитать запись.</p>
-        <div class="grid" id="calendar"></div>
-      </section>
+      <div style="margin-top:14px">
+        <button class="btn" id="gotoThoughts">Открыть "Мои мысли"</button>
+      </div>
+    </section>
 
-      <!-- Dreams -->
-      <section class="card" id="dreams-card" style="display:none">
-        <h2>Наши мечты</h2>
-        <div class="dreams-grid" id="dreams-list">
-          <div class="dream"><strong>Путешествовать вместе</strong><div>Италия, Япония, та самая маленькая кофейня у моря.</div></div>
-          <div class="dream"><strong>Свой дом</strong><div>Тёплый дом с большим окном и растениями.</div></div>
-          <div class="dream"><strong>Семейные традиции</strong><div>Вечерние прогулки и завтраки по воскресеньям.</div></div>
-          <div class="dream"><strong>Хобби вдвоём</strong><div>Кулинария, походы, подбор плейлистов.</div></div>
-        </div>
-      </section>
+    <section id="thoughts" class="card fade" style="display:none">
+      <h2>Мои мысли — 30 дней</h2>
+      <p>Кликни на номер дня, чтобы открыть запись.</p>
+      <div class="grid" id="calendar"></div>
+    </section>
 
-      <!-- Likes -->
-      <section class="card" id="likes-card" style="display:none">
-        <h2>Наши одинаковости</h2>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-          <div class="dream">☕ Кофе по утрам</div>
-          <div class="dream">🎬 Любимые фильмы</div>
-          <div class="dream">🌊 Море и длинные прогулки</div>
-          <div class="dream">🎶 Музыка вечером</div>
-        </div>
-      </section>
+    <section id="dreams" class="card fade" style="display:none">
+      <h2 style="margin-bottom:14px;">Мечты</h2>
 
-    </main>
 
-    <footer>Сделано с любовью — Manuchehr ❤️ 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶</footer>
-  </div>
+      <h3 style="color:#8c2f62; margin-top:24px;">Её мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Станцевать вальс на свадьбе.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в Корею.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Стать педиатром.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Готовить для меня, болтать часами со мной, встречать меня с работы, гулять со мной.
+      </div>
 
-  <!-- Modal (hidden) -->
+      <!-- Мои мечты -->
+      <h3 style="color:#8c2f62; margin-top:24px;">Мои мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Однажды просыпаться рядом с тобой каждое утро.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Путешествовать с тобой в новые города и страны, просто держась за руки.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Увидеть, как ты улыбаешься каждый день — и быть причиной этой улыбки.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Хочу готовить для тебя, помогать тебе, болтать часами с тобой, гулять с тобой, хочу чтобы встречала с работы.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Куча денег и огромный дом.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Прыгнуть с парашютом.
+      </div>
+    
+      <!-- Наши мечты -->
+      <h3 style="color:#8c2f62; margin-top:24px;">Наши мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Полететь вместе в Корею.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Посетить Диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Построить тёплый дом, в котором будет много света и смеха.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Делать все все вместе. Учиться, развиваться, гулять, смотреть фильмы и сериалы, играть, болтать, дурачиться, помогать и поддерживать.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Посетить самые прекрасные места в мире.
+      </div>
+    </section>
+    
+
+    <section id="likes" class="card fade" style="display:none">
+      <h2>Наши маленькие совпадения</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <div class="card">✍️ Плохой почерк (но у тебя красивее)</div>
+        <div class="card">🎂 Оба родились в августе — разница всего 5 дней (8 и 13)</div>
+        <div class="card">🫖 Любим чай</div>
+        <div class="card">🥔 Любим жареную картошку</div>
+        <div class="card">💬 Любим болтать друг с другом</div>
+        <div class="card">🎧 Слушаем музыку</div>
+        <div class="card">🏡 Любим сидеть дома, но и путешествовать тоже</div>
+        <div class="card">🚶‍♂️🚶‍♀️ Любим гулять</div>
+        <div class="card">Может совпадений куда больше. Скоро узнаем 😁</div>
+      </div>
+    </section>
+    
+  </main>
+
+  <footer>Сделано с любовью <br>Manuchehr ❤️ 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶</footer>
+
   <div id="modal-root" style="display:none"></div>
 
-  <script>
-    /* ================== Hearts animation ================== */
-    (function(){
-      const canvas = document.getElementById('hearts');
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = innerWidth;
-      let h = canvas.height = innerHeight;
-      window.addEventListener('resize',()=>{w=canvas.width=innerWidth;h=canvas.height=innerHeight});
+<script>
+  let isAuthorMode = false; // По умолчанию Shuki-режим
+  /* Hearts animation */
 
-      function rand(min,max){return Math.random()*(max-min)+min}
 
-      const particles = [];
-      function createHeart(){
-        const size = rand(10,30);
-        particles.push({x:rand(0,w),y:h+50,vx:rand(-0.3,0.3),vy:rand(-1.4,-0.6),size,alpha:rand(0.4,0.95),rot:rand(0,Math.PI*2)});
-      }
-      for(let i=0;i<35;i++) createHeart();
-      function drawHeart(x,y,s,alpha,rot){
-        ctx.save();ctx.translate(x,y);ctx.rotate(rot);
-        ctx.scale(s/40,s/40);
-        ctx.beginPath();
-        ctx.moveTo(0,-8);
-        ctx.bezierCurveTo(20,-40,60,-40,60,-8);
-        ctx.bezierCurveTo(60,30,30,50,0,70);
-        ctx.bezierCurveTo(-30,50,-60,30,-60,-8);
-        ctx.bezierCurveTo(-60,-40,-20,-40,0,-8);
-        ctx.closePath();
-        ctx.fillStyle = 'rgba(171,68,118,'+alpha+')';
-        ctx.fill();
-        ctx.restore();
-      }
-      function loop(){
-        ctx.clearRect(0,0,w,h);
-        for(let i=0;i<particles.length;i++){
-          const p=particles[i];
-          p.x+=p.vx; p.y+=p.vy; p.rot+=0.01;
-          drawHeart(p.x,p.y,p.size,p.alpha,p.rot);
-          if(p.y<-80||p.x<-100||p.x>w+100){particles.splice(i,1);i--;createHeart();}
-        }
-        requestAnimationFrame(loop);
-      }
-      loop();
-    })();
+  const DIARY = {
+  1: {
+    text: "Сегодня начинается наш маленький путь… 30 дней, 30 мыслей, 30 кусочков моего сердца только для тебя, моя 𝒮𝓱𝓾𝓴𝓲 ❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  2: {
+    text: "Иногда я ловлю себя на мысли, что хочу рассказывать тебе вообще всё - даже самые маленькие вещи. Ты стала моей привычкой, моей тихой радостью каждый день.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  3: {
+    text: "Когда ты пишешь мне, у меня внутри будто загорается маленький фонарик. И даже если день тяжёлый - ты делаешь его мягким и светлым <3.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  4: {
+    text: "Мне нравится, что мы можем говорить обо всём. Ты та, с кем я хочу быть настоящим. Без масок, без игр, просто собой.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  5: {
+    text: "Иногда я думаю: каким чудом ты вообще появилась в моей жизни? И как я раньше жил без тебя…)",
+    image: "",
+    video: "",
+    music: ""
+  },
+  6: {
+    text: "Ты даже не представляешь, насколько ты влилась в мои мысли. Где бы я ни был, что бы ни делал - ты всегда со мной 😊.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  7: {
+    text: "Мне нравится представлять, как мы идём рядом, смеёмся, выбираем фильм, гуляем, просто молчим… и всё равно вместе.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  8: {
+    text: "Каждый раз, когда вижу твое сообщение, я будто слышу твой голос. И это самое тёплое чувство за день. 🥰",
+    image: "",
+    video: "",
+    music: ""
+  },
+  9: {
+    text: "Я люблю, как ты думаешь. Как реагируешь. Как говоришь. Ты - моя маленькая Вселенная, в которой всегда тепло 💗.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  10: {
+    text: "Если бы ты знала, как много нежности у меня к тебе… Иногда даже не помещается внутри ❤️‍🔥❤️‍🔥❤️‍🔥",
+    image: "",
+    video: "",
+    music: ""
+  },
+  11: {
+    text: "Мне важен каждый твой день. Хочу, чтобы ты была спокойной, счастливой и чтобы ты чувствовала мою поддержку, даже если пока что я не рядом.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  12: {
+    text: "Ты умеешь вдохновлять меня просто тем, что существуешь. Благодаря тебе я стал мягче… и лучше. 😁😁😁",
+    image: "",
+    video: "",
+    music: ""
+  },
+  13: {
+    text: "Мне нравится твой характер. Даже когда ты в шутку обижаешься - ты всё равно самая самая любимая ❤️❤️❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  14: {
+    text: "Я жду когда однажды проснусь и увижу тебя рядом. Видеть, как ты спишь, как тихо дышишь. Как будто весь мир рядом со мной.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  15: {
+    text: "Спасибо тебе за то, что ты есть. За то, что читаешь эти строки. За то, что стала той, ради которой я стараюсь 💘",
+    image: "",
+    video: "",
+    music: ""
+  },
+  16: {
+    text: "Ты - самое красивое чувство, которое со мной когда-либо случалось. Не громкое. Не резкое. А тихое, нежное, настоящее.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  17: {
+    text: "Иногда мне кажется, что между нами есть что-то своё… то, что понимаем только мы. И мне это очень нравится. 😁💞",
+    image: "",
+    video: "",
+    music: ""
+  },
+  18: {
+    text: "Я знаю, что мы справимся со всем. Потому что у нас есть доверие. И у нас есть мы.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  19: {
+    text: "Когда ты улыбаешься — мне будто весь мир улыбается. Ты даже не знаешь, насколько ты особенная 🤍",
+    image: "",
+    video: "",
+    music: ""
+  },
+  20: {
+    text: "Мне хочется делать тебя счастливой каждый день. Маленькими действиями, словами, вниманием. Ты этого достойна.😊",
+    image: "",
+    video: "",
+    music: ""
+  },
+  21: {
+    text: "Если бы я мог, я бы сейчас обнял тебя так тихо, так осторожно… чтобы ты почувствовала - ты дома. 🤗🤗🤗",
+    image: "",
+    video: "",
+    music: ""
+  },
+  22: {
+    text: "Я люблю тебя. Просто люблю. Сильно сильно. До безумия. Ты моя первая и единственная любовь. Ты со мной навсегда моя пингвиниха❤️😁🐧",
+    image: "",
+    video: "",
+    music: ""
+  },
+  23: {
+    text: "Когда ты говоришь что-то доброе - у меня на сердце теплее 💘",
+    image: "",
+    video: "",
+    music: ""
+  },
+  24: {
+    text: "Ты - то чувство, которое хочется держать аккуратно. Ты для меня важна, очень важна ❤️❤️❤️❤️❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  25: {
+    text: "Мне нравится мечтать о будущем с тобой. Представлять маленькие моменты, которых ещё нет, но которые точно будут. 😌😊",
+    image: "",
+    video: "",
+    music: ""
+  },
+  26: {
+    text: "Ты меня вдохновляешь. Мне хочется работать, расти, становиться лучше - для тебя, для нас.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  27: {
+    text: "Мне нравится думать о том, что однажды мы будем вспоминать это время с улыбкой. Оно - начало нашего пути.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  28: {
+    text: "Шуки, ты не просто жена. Ты - моя тёплая мысль каждый день. Мой человек. Моё маленькое чудо.💖💓💫",
+    image: "",
+    video: "",
+    music: ""
+  },
+  29: {
+    text: "Спасибо, что открылась мне. Что доверяешь. Что позволяешь любить тебя так, как умею.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  30: {
+    text: "Это последний день, но не последний шаг. Впереди наша жизнь. И я хочу пройти её рядом с тобой. Я тебя люблю ❤️",
+    image: "",
+    video: "",
+    music: ""
+  }
+};
 
-    /* ================== Tabs and SPA ================== */
-    const tabs = document.querySelectorAll('.tab');
-    const sections = {home:document.getElementById('home-card'), thoughts:document.getElementById('thoughts-card'), dreams:document.getElementById('dreams-card'), likes:document.getElementById('likes-card')};
-    function activate(tabName){
-      tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===tabName));
-      Object.keys(sections).forEach(k=>sections[k].style.display = (k===tabName)?'block':'none');
-      // soften hearts on non-home
-      document.getElementById('hearts').style.opacity = (tabName==='home')?1:0.45;
+
+  function closeModalSmooth() {
+  const root = document.getElementById("modal-root");
+  const backdrop = root.querySelector(".modal-backdrop");
+  const modal = root.querySelector(".modal");
+
+  if (!backdrop || !modal) return;
+
+  backdrop.classList.add("hide");
+  modal.classList.add("hide");
+
+  // После анимации просто убрать окно
+  setTimeout(() => {
+    root.style.display = "none";
+    root.innerHTML = "";
+  }, 300); // совпадает с CSS animation: 0.3s
+}
+
+
+function spawnModalHearts() {
+  const modal = document.querySelector(".modal");
+  if (!modal) return;
+
+  const rect = modal.getBoundingClientRect();
+  const emojis = ['💗','💘','💖','💕','💞','❤️‍🔥'];
+
+  for (let i = 0; i < 6; i++) {
+    const h = document.createElement("div");
+    h.className = "modal-heart";
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    const x = rect.left + Math.random() * rect.width;
+    const y = rect.top + rect.height + 20;
+
+    h.style.left = `${x}px`;
+    h.style.top = `${y}px`;
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 1500);
+  }
+}
+
+function enableAuthorMode() {
+  isAuthorMode = true;
+  localStorage.setItem("shuki_author", "1");
+  alert("Режим автора включён ❤️");
+}
+
+// если ты ранее включал — сразу включится
+if (localStorage.getItem("shuki_author") === "1") {
+  isAuthorMode = true;
+}
+
+function installSecretTouch(element, dayNumber) {
+  let clickCount = 0;
+  let lastClickTime = 0;
+  let holdTimer;
+
+  element.addEventListener("mousedown", start);
+  element.addEventListener("touchstart", start);
+
+  element.addEventListener("mouseup", cancel);
+  element.addEventListener("mouseleave", cancel);
+  element.addEventListener("touchend", cancel);
+
+  function start(e) {
+    const now = Date.now();
+
+    if (now - lastClickTime < 350) {
+      clickCount++;
+    } else {
+      clickCount = 1;
     }
-    tabs.forEach(t=>t.addEventListener('click',()=>activate(t.dataset.tab)));
-    document.getElementById('open-thoughts').addEventListener('click',()=>activate('thoughts'));
 
-    /* ================== Countdown ================== */
-    const target = new Date('2026-04-05T00:00:00');
-    function updateCountdown(){
-      const now = new Date();
-      let diff = Math.max(0, Math.floor((target - now) / 1000));
-      const days = Math.floor(diff / 86400); diff %= 86400;
-      const hours = Math.floor(diff / 3600); diff %= 3600;
-      const mins = Math.floor(diff / 60); const secs = diff % 60;
-      document.getElementById('days').textContent = days;
-      document.getElementById('hours').textContent = String(hours).padStart(2,'0');
-      document.getElementById('minutes').textContent = String(mins).padStart(2,'0');
-      document.getElementById('seconds').textContent = String(secs).padStart(2,'0');
+    lastClickTime = now;
+
+    if (clickCount === 2) {
+      // длинное удержание
+      holdTimer = setTimeout(() => {
+        enableAuthorMode();
+      }, 900);
     }
-    updateCountdown(); setInterval(updateCountdown,1000);
+  }
 
-    /* ================== Calendar / Thoughts (LocalStorage) ================== */
-    const calendarEl = document.getElementById('calendar');
-    const DAYS = 30;
-    const STORAGE_KEY = 'shuki_thoughts_v1';
-    let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-
-    function renderCalendar(){
-      calendarEl.innerHTML = '';
-      for(let i=1;i<=DAYS;i++){
-        const div = document.createElement('div'); div.className='day'; div.dataset.day=i;
-        div.innerHTML = `<div class="num">День ${i}</div><div class="dot"></div>`;
-        if(data[i] && (data[i].text||data[i].image||data[i].video||data[i].music)) div.style.boxShadow='0 6px 18px rgba(154,40,100,0.06)';
-        div.addEventListener('click',()=>openModalForDay(i));
-        calendarEl.appendChild(div);
-      }
+  function cancel() {
+    clearTimeout(holdTimer);
+  }
+}
+(function(){
+  const canvas=document.getElementById('hearts');
+  const ctx=canvas.getContext('2d');
+  let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
+  addEventListener('resize',()=>{w=canvas.width=innerWidth;h=canvas.height=innerHeight});
+  function r(a,b){return Math.random()*(b-a)+a}
+  const parts=[];
+  function make(){return{x:r(0,w),y:h+40,vx:r(-0.4,0.4),vy:r(-1.4,-0.5),s:r(12,30),o:r(0.35,0.9),rot:r(0,Math.PI*2)}}
+  for(let i=0;i<34;i++)parts.push(make());
+  function draw(p){
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.scale(p.s/40,p.s/40);
+    ctx.beginPath();ctx.moveTo(0,-8);
+    ctx.bezierCurveTo(20,-40,60,-40,60,-8);
+    ctx.bezierCurveTo(60,30,30,50,0,70);
+    ctx.bezierCurveTo(-30,50,-60,30,-60,-8);
+    ctx.bezierCurveTo(-60,-40,-20,-40,0,-8);
+    ctx.closePath();ctx.fillStyle='rgba(171,68,118,'+p.o+')';ctx.fill();ctx.restore()
+  }
+  (function loop(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<parts.length;i++){
+      const p=parts[i];
+      p.x+=p.vx;p.y+=p.vy;p.rot+=0.01;
+      draw(p);
+      if(p.y<-120||p.x<-120||p.x>w+120)parts[i]=make()
     }
+    requestAnimationFrame(loop)
+  })();
+})();
 
-    function openModalForDay(day){
-      const cur = data[day] || {text:'',image:'',video:'',music:''};
-      const root = document.getElementById('modal-root'); root.style.display='block';
-      root.innerHTML = `
-        <div class="modal-backdrop">
-          <div class="modal card">
-            <h3>День ${day}</h3>
-            <label>Текст</label>
-            <textarea id="m_text">${escapeHtml(cur.text||'')}</textarea>
-            <div class="form-row">
-              <input id="m_image" type="text" placeholder="Ссылка на изображение (опционально)" value="${escapeHtml(cur.image||'')}">
-              <input id="m_video" type="text" placeholder="Ссылка на видео (YouTube)" value="${escapeHtml(cur.video||'')}">
-            </div>
-            <div class="form-row" style="margin-top:8px;">
-              <input id="m_music" type="text" placeholder="Ссылка на аудио (опционально)" value="${escapeHtml(cur.music||'')}">
-            </div>
-            <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
-              <button class="btn" id="saveBtn">Сохранить</button>
-              <button class="btn" id="closeBtn">Закрыть</button>
-            </div>
-          </div>
+/* Tabs SPA */
+const tabsNode=document.getElementById('navTabs');
+const tabBtns=document.querySelectorAll('.tab');
+const screens={
+  home:document.getElementById('home'),
+  thoughts:document.getElementById('thoughts'),
+  dreams:document.getElementById('dreams'),
+  likes:document.getElementById('likes')
+};
+Object.values(screens).forEach(s=>s.classList.add('fade'));
+
+function activate(name){
+  tabBtns.forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  Object.keys(screens).forEach(k=>{
+    if(k===name){
+      screens[k].style.display='block';
+      setTimeout(()=>screens[k].classList.add('show'),20)
+    } else {
+      screens[k].classList.remove('show');
+      setTimeout(()=>screens[k].style.display='none',250)
+    }
+  });
+  document.getElementById('hearts').style.opacity=(name==='home'?1:0.45);
+  localStorage.setItem('shuki_last_tab',name);
+}
+
+tabBtns.forEach(b=>b.addEventListener('click',()=>{activate(b.dataset.tab);navTabs.classList.remove('show')}));
+document.getElementById('menuBtn').addEventListener('click',e=>{e.stopPropagation();navTabs.classList.toggle('show')});
+document.addEventListener('click',e=>{if(!navTabs.contains(e.target)&&e.target.id!=='menuBtn')navTabs.classList.remove('show')});
+
+activate(localStorage.getItem('shuki_last_tab') || 'home');
+
+document.getElementById('gotoThoughts').addEventListener('click',()=>activate('thoughts'));
+
+/* Countdown */
+const target = new Date('2026-04-05T00:00:00');
+function updateCountdown(){
+  const now=new Date();
+  let diff=Math.max(0,Math.floor((target-now)/1000));
+  const days=Math.floor(diff/86400); diff%=86400;
+  const hours=Math.floor(diff/3600); diff%=3600;
+  const mins=Math.floor(diff/60); const secs=diff%60;
+
+  document.getElementById('days').textContent=days;
+  document.getElementById('hours').textContent=String(hours).padStart(2,'0');
+  document.getElementById('minutes').textContent=String(mins).padStart(2,'0');
+  document.getElementById('seconds').textContent=String(secs).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* ===== THOUGHTS: improved block/unblock system ===== */
+const CAL_DAYS=30;
+const STORAGE_KEY='shuki_thoughts_v1';
+let diary={};
+try{diary=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch(e){diary={}}
+
+const cal=document.getElementById('calendar');
+
+/* Modal for locked */
+function showLockedModal(n, unlockDate) {
+  const root = document.getElementById('modal-root');
+  root.style.display = 'block';
+
+  // разные милые фразы 💗
+  const messages = [
+    "Я знаю, что тебе так хочется открыть… но чуть-чуть подожди ещё 😘",
+    "Не торопись, любимая. Время скоро придёт ❤️",
+    "Ты такая любопытная… но я специально прячу это для особенного момента 💕",
+    "Еще чуть-чуть, моя хорошая. Я готовлю что-то милое для тебя 🌸",
+    "Подожди ещё немного… я хочу, чтобы этот момент был особенным 💗",
+    "Ты уже хочешь заглянуть? Хитрюлька 😍 но пока нельзя.",
+    "Потерпи, любовь моя. Это станет ещё приятнее, когда откроется 💞",
+    "Я знаю, что ты ждёшь… и мне это так нравится 🌺",
+    "Еще не время, солнышко. Но скоро-скоро 💘",
+    "Ммм… любопытная малышка. Но сегодня этот день ещё спит 🌙"
+  ];
+
+  // выбираем случайную фразу
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+  const dateStr = unlockDate.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long'
+  });
+
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n} пока закрыт 🔒</h3>
+
+        <p style="margin-top:10px;font-size:16px;color:#6b3b50;">
+          ${randomMessage}
+        </p>
+
+        <p style="margin-top:6px;font-size:14px;color:#8c6575;">
+          Он откроется автоматически <b>${dateStr}</b>.
+        </p>
+
+        <div class="actions">
+          <button class="btn" id="closeLocked">Понятно ❤️</button>
         </div>
-      `;
-      document.getElementById('closeBtn').addEventListener('click',()=>{root.style.display='none';root.innerHTML='';});
-      document.getElementById('saveBtn').addEventListener('click',()=>{
-        const t = document.getElementById('m_text').value;
-        const img = document.getElementById('m_image').value;
-        const vid = document.getElementById('m_video').value;
-        const mus = document.getElementById('m_music').value;
-        data[day] = {text:t,image:img,video:vid,music:mus};
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        root.style.display='none';root.innerHTML='';renderCalendar();
+      </div>
+    </div>
+  `;
+  
+
+  document.getElementById("closeLocked").addEventListener("click", () => {
+    closeModalSmooth();
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+}
+
+
+/* Regular modal */
+function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function viewDay(n) {
+  const cur = DIARY[n] || { text:"", image:"", video:"", music:"" };
+  const root = document.getElementById("modal-root");
+  root.style.display = "block";
+
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n}</h3>
+
+        <p style="margin-top:12px;color:#6b3b50;">
+          ${escapeHtml(cur.text || "Запись появится позже 💗")}
+        </p>
+
+        ${cur.image ? `<img src="${cur.image}" style="width:100%;margin-top:10px;border-radius:10px;">` : ""}
+
+        ${cur.video ? `<iframe style="width:100%;height:200px;margin-top:10px;border-radius:10px;"
+            src="${cur.video.replace("watch?v=", "embed/")}" frameborder="0"></iframe>` : ""}
+
+        ${cur.music ? `<audio controls style="width:100%;margin-top:10px;">
+            <source src="${cur.music}">
+          </audio>` : ""}
+
+        <div class="actions">
+          <button class="btn" id="closeView">Хорошо 💗</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("closeView").addEventListener("click", () => {
+    closeModalSmooth();
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+}
+
+function openDay(n){
+  const cur=diary[n]||{text:'',image:'',video:'',music:''};
+  const root=document.getElementById('modal-root');
+  root.style.display='block';
+
+  root.innerHTML=`
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n}</h3>
+
+        <label>Текст</label>
+        <textarea id="m_text">${escapeHtml(cur.text)}</textarea>
+
+        <label>Ссылка на изображение (опционально)</label>
+        <input id="m_image" type="text" value="${escapeHtml(cur.image)}">
+
+        <label>Ссылка на видео (YouTube)</label>
+        <input id="m_video" type="text" value="${escapeHtml(cur.video)}">
+
+        <label>Ссылка на аудио</label>
+        <input id="m_music" type="text" value="${escapeHtml(cur.music)}">
+
+        <div class="actions">
+          <button class="btn" id="saveBtn">Сохранить</button>
+          <button class="btn" id="closeBtn">Назад</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('closeBtn').addEventListener('click',()=>{
+    root.style.display='none';
+    root.innerHTML='';
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    diary[n]={
+      text:document.getElementById('m_text').value,
+      image:document.getElementById('m_image').value,
+      video:document.getElementById('m_video').value,
+      music:document.getElementById('m_music').value
+    };
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(diary));
+    root.style.display='none';root.innerHTML='';
+    renderCalendar();
+  });
+}
+
+function spawnHearts(element, count = 3) {
+  // element — DOM-узел .day (у него position:relative в CSS)
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+
+  // если элемент не позиционирован относительно — сделаем временно
+  if (getComputedStyle(element).position === 'static') {
+    element.style.position = 'relative';
+  }
+
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    // можно варьировать эмодзи
+    const emojis = ['💗','💞','💕','💘','💖'];
+    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // позиционируем внутри элемента: центр + рандом смещение
+    const offsetX = (rect.width / 2) + (Math.random() * 40 - 20);
+    const offsetY = (rect.height / 2) + (Math.random() * 10 - 5);
+
+    heart.style.left = `${offsetX}px`;
+    heart.style.top  = `${offsetY}px`;
+
+    // случайный размер/время
+    const size = 14 + Math.floor(Math.random() * 16); // 14..30px
+    heart.style.fontSize = `${size}px`;
+    heart.style.opacity = '0';
+
+    element.appendChild(heart);
+
+    // удаляем через чуть больше времени чем длится анимация
+    setTimeout(() => {
+      if (heart && heart.parentNode) heart.remove();
+    }, 1000);
+  }
+}
+
+function spawnButtonHeart(btn) {
+  const heart = document.createElement("div");
+  heart.className = "btn-heart";
+
+  const emojis = ["💗", "💖", "💕", "💘"];
+  heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+  // родитель — кнопка
+  btn.style.position = "relative";
+
+  heart.style.left = "50%";
+  heart.style.top = "-8px";
+  heart.style.transform = "translateX(-50%)";
+
+  btn.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 900);
+}
+
+/* Calendar render with blocking logic */
+function renderCalendar() {
+  cal.innerHTML = '';
+  const startDate = new Date('2025-11-20T00:00:00');
+  const now = new Date();
+
+  for (let i = 1; i <= CAL_DAYS; i++) {
+    const d = document.createElement('div');
+    d.className = 'day';
+    d.dataset.day = i;
+    d.innerHTML = `<div class="num">День ${i}</div>`;
+
+    const unlockDate = new Date(startDate);
+    unlockDate.setDate(startDate.getDate() + (i - 1));
+
+    const isUnlocked = now >= unlockDate;
+
+    if (!isUnlocked) {
+      d.classList.add('locked');
+      d.addEventListener('click', () => {
+        spawnHearts(d);                    // ❤️ сердечки теперь работают
+        showLockedModal(i, unlockDate);    // модалка “подожди”
+      });
+
+    } else {
+      d.addEventListener("click", () => {
+        spawnHearts(d);                    // ❤️ сердечки на открытии
+
+        if (isAuthorMode) {
+          openDay(i);                      // режим автора
+        } else {
+          viewDay(i);                      // режим просмотра
+        }
       });
     }
 
-    function escapeHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-    renderCalendar();
+    // если есть сохраненная запись — подсветка
+    if (DIARY[i] && (DIARY[i].text || DIARY[i].image || DIARY[i].video || DIARY[i].music)) {
+      d.classList.add("filled");
+    }
 
-    /* ================== Optional: quick import/export of diary ================== */
-    // For convenience: allow export/import via console commands if needed
-    window.exportDiary = ()=>{ return JSON.stringify(data) };
-    window.importDiary = (json)=>{ try{ data = JSON.parse(json); localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); renderCalendar(); alert('Импортировано') }catch(e){alert('Ошибка импорта')} };
+    installSecretTouch(d, i);              // скрытый жест включения авторского режима
 
-    /* ================== Small polish ================== */
-    // If user refreshes, remain on last opened tab
-    const LAST_TAB = 'shuki_last_tab_v1';
-    const last = localStorage.getItem(LAST_TAB) || 'home';
-    activate(last);
-    tabs.forEach(t=>t.addEventListener('click',()=>localStorage.setItem(LAST_TAB,t.dataset.tab)));
+    cal.appendChild(d);
+  }
+}
 
-    // Small accessibility: escape to close modal
-    window.addEventListener('keydown',e=>{if(e.key==='Escape'){const root=document.getElementById('modal-root');if(root.style.display==='block'){root.style.display='none';root.innerHTML='';}}});
-  </script>
+renderCalendar();
+
+/* Close modal via ESC */
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const r=document.getElementById('modal-root');
+    if(r.style.display==='block'){
+      r.style.display='none';
+      r.innerHTML='';
+    }
+  }
+});
+
+// Анимация сердечка при нажатии на любую кнопку .btn
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn");
+  if (btn) {
+      spawnButtonHeart(btn);
+  }
+
+});
+
+</script>
+
 </body>
 </html>
