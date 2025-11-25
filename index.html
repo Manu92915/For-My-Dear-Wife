@@ -696,30 +696,73 @@ function installSecretTouch(element, dayNumber) {
   const ctx=canvas.getContext('2d');
   let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
   addEventListener('resize',()=>{w=canvas.width=innerWidth;h=canvas.height=innerHeight});
+
   function r(a,b){return Math.random()*(b-a)+a}
+
   const parts=[];
-  function make(){return{x:r(0,w),y:h+40,vx:r(-0.4,0.4),vy:r(-1.4,-0.5),s:r(12,30),o:r(0.35,0.9),rot:r(0,Math.PI*2)}}
-  for(let i=0;i<34;i++)parts.push(make());
+
+  function make(){
+    const purple = Math.random() < 0.7; // 70% пурпурные
+
+    return {
+      x: r(0, w),
+      y: h + 40,
+      vx: r(-0.4, 0.4),
+      vy: r(-1.4, -0.5),
+      s: r(12, 30),
+      o: purple ? r(0.35, 0.9) : 1,   // белые всегда непрозрачные
+      rot: r(0, Math.PI * 2),
+      purple: purple                 // добавили флаг цвета
+    };
+  }
+
+  for(let i=0;i<34;i++) parts.push(make());
+
   function draw(p){
-    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.scale(p.s/40,p.s/40);
-    ctx.beginPath();ctx.moveTo(0,-8);
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.scale(p.s / 40, p.s / 40);
+
+    ctx.beginPath();
+    ctx.moveTo(0,-8);
     ctx.bezierCurveTo(20,-40,60,-40,60,-8);
     ctx.bezierCurveTo(60,30,30,50,0,70);
     ctx.bezierCurveTo(-30,50,-60,30,-60,-8);
     ctx.bezierCurveTo(-60,-40,-20,-40,0,-8);
-    ctx.closePath();ctx.fillStyle='rgba(171,68,118,'+p.o+')';ctx.fill();ctx.restore()
+    ctx.closePath();
+
+    // 🎨 Цвет: пурпурный с прозрачностью, белый — полностью плотный
+    if (p.purple) {
+      ctx.fillStyle = `rgba(171,68,118,${p.o})`;
+    } else {
+      ctx.fillStyle = `rgba(255,255,255,1)`;
+    }
+
+    ctx.fill();
+    ctx.restore();
   }
+
   (function loop(){
     ctx.clearRect(0,0,w,h);
     for(let i=0;i<parts.length;i++){
-      const p=parts[i];
-      p.x+=p.vx;p.y+=p.vy;p.rot+=0.01;
+      const p = parts[i];
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += 0.01;
+
       draw(p);
-      if(p.y<-120||p.x<-120||p.x>w+120)parts[i]=make()
+
+      if(p.y < -120 || p.x < -120 || p.x > w+120){
+        parts[i] = make();
+      }
     }
-    requestAnimationFrame(loop)
+    requestAnimationFrame(loop);
   })();
 })();
+
+
 
 /* Tabs SPA */
 const tabsNode=document.getElementById('navTabs');
@@ -1054,7 +1097,3 @@ document.addEventListener("click", (e) => {
 
 </body>
 </html>
-
-
-
-
