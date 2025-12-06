@@ -1723,23 +1723,18 @@ run.addEventListener("click", spawnTinyDinoBurst);
 
   setTimeout(scheduleNext, 2500);
 
-  document.addEventListener('click', (e) => {
+   document.addEventListener("click", (e) => {
+    if (e.cancelBubble) return;
+    if (e.defaultPrevented) return;
 
-// ☑️ Если клик по футеру — НЕ запускать динозавров
-if (e.target.closest('footer')) return;
+    if (e.target.closest("button, input, textarea, select, a, .card, header, nav")) return;
+    if (e.target.closest("#lovePopupOverlay")) return;
+    if (e.target.closest("#dinoPeek") || e.target.closest("#dinoRun")) return;
+    if (e.target.closest("footer")) return;
 
-// ☑️ Если клик по анимации любви — тоже не мешаем
-if (e.target.closest('#lovePopupOverlay')) return;
-
-// ☑️ Если клик по динозавру
-if (e.target.closest('#dinoPeek') || e.target.closest('#dinoRun')) return;
-
-// ☑️ Если клик по кнопкам/инпутам
-if (e.target.closest('a,button,input,textarea')) return;
-
-// 🦕 запускаем рандомную анимацию
-(Math.random() < 0.5 ? actionPeek : actionRun)();
+    (Math.random() < 0.5 ? actionPeek : actionRun)();
 });
+
 
   window.addEventListener('resize', ()=> speech.classList.remove('show'));
 });
@@ -1926,4 +1921,5 @@ document.getElementById("lovePopupOverlay").addEventListener("click", e => {
 
 </body>
 </html>
+
 
