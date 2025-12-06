@@ -433,6 +433,199 @@
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
     }
+    .dino {
+  position: fixed;
+  pointer-events: auto; /* ← разрешаем клики */
+  z-index: 99999;
+  transform-origin: left center;
+  cursor: pointer; /* красиво — показывает, что можно нажимать */
+}
+
+
+/* ВЫГЛЯДЫВАНИЕ из левого угла (можно смещать top) */
+#dinoPeek {
+  top: 40%;
+  left: -260px;               /* старт за экраном */
+  transition: left 0.8s cubic-bezier(.2,.9,.2,1);
+  width: 140px;
+  height: auto;
+}
+
+/* ПРОБЕЖКА снизу */
+#dinoRun {
+  bottom: 12px;
+  left: -360px;               /* старт за экраном */
+  transition: left 0.7s cubic-bezier(.2,.9,.2,1);
+  width: 180px;
+  height: auto;
+}
+
+/* обёртка для SVG, чтобы можно было управлять размером */
+.dino .svg-wrap { width: 100%; height: auto; display:block; }
+
+/* пузырёк речи */
+#dinoSpeech {
+  position: fixed;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: linear-gradient(180deg,#fff,#fff7fb);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.12);
+  font-size: 16px;
+  color: #6b2650;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .28s ease, transform .28s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
+#dinoSpeech.show { opacity: 1; transform: translateY(0); }
+
+/* немножко «peek» эффект (подпрыгивание) */
+.dino.peek { transform: translateY(-6px) scale(1.02); transition: transform .18s ease; }
+
+/* адаптив: уменьшаем размеры на узких экранах */
+@media(max-width:600px){
+  #dinoPeek { width: 110px; }
+  #dinoRun  { width: 140px; }
+  #dinoSpeech { font-size:14px; }
+}
+
+.tiny-dino {
+  position: fixed;
+  width: 45px;
+  height: auto;
+  pointer-events: none;
+  opacity: 1;
+  z-index: 999999;
+}
+
+#lovePopupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999;
+}
+
+#lovePopupContent {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+
+  background: rgba(255,255,255,0.92);
+  padding: 40px;
+  padding-left: 0;
+  border-radius: 0; /* убираем скругления, если нужно */
+  overflow-y: auto;
+  box-shadow: none; /* тень не нужна, теперь это весь экран */
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* чтобы текст был сверху */
+  animation: popupFade .4s ease;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+
+  /* Блок с буквами */
+  #loveLetters {
+  display: flex;
+  flex-direction: column;  /* буквы вертикально */
+  gap: 18px;
+  margin-right: 20px;
+}
+
+.love-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.love-letter {
+  position: relative;
+  font-size: 38px;
+  font-weight: 700;
+  color: #b5b5b5; /* серая */
+  transition: color .35s, text-shadow .35s;
+  min-width: 28px;
+  text-align: center;
+}
+
+.love-letter.active {
+  color: #ffd53b;
+  text-shadow: 0 0 12px rgba(255, 230, 90, 1);
+}
+
+.typing-block {
+  display: flex;
+  flex-direction: column;
+  font-family: "Dancing Script", cursive;
+  font-size: 12px;
+  white-space: pre-line;
+  color: #6b2650;
+}
+
+.typing-line {
+  min-height: 26px;
+}
+
+#popupCloseBtn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 21px;
+  cursor: pointer;
+  color: #a93778;
+  font-weight: 700;
+  transition: transform .2s, opacity .2s;
+  opacity: 0.75;
+}
+
+#popupCloseBtn:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.final-heart {
+  position: absolute;
+  left: 36px;        /* справа от буквы */
+  top: 50%;          /* вертикальный центр */
+  transform: translateY(-50%);  /* центрируем идеально */
+  font-size: 26px;
+  pointer-events: none;
+  animation: finalPulse 1.2s ease-in-out infinite;
+}
+
+
+@keyframes finalPulse {
+  0%   { transform: scale(1); opacity: 0.9; }
+  50%  { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0;
+  animation: floatHeart 1.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes floatHeart {
+  0%   { transform: translateY(0) scale(0.7); opacity: 1; }
+  50%  { transform: translateY(-20px) scale(1); opacity: 1; }
+  100% { transform: translateY(-45px) scale(1.3); opacity: 0; }
+}
+
 
   </style>
 </head>
@@ -638,12 +831,37 @@
     
   </main>
 
-  <footer>Сделано с любовью <br>Manuchehr ❤️ 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶</footer>
+  <footer onclick="startLoveAnimation()">Сделано с любовью <br>Manuchehr ❤️ 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶</footer>
 
   <div id="modal-root" style="display:none"></div>
   <div id="loveMessage" class="love-popup">
     Я тебя сильно люблю и хочу уже утопить тебя в своих объятиях
   </div>
+
+  <div id="dinoPeek" class="dino" aria-hidden="true">
+    <div class="svg-wrap">
+      <img src="dino.svg" alt="" style="width:100%;height:auto;">
+    </div>
+  </div>
+  
+  <div id="dinoRun" class="dino" aria-hidden="true">
+    <div class="svg-wrap">
+      <img src="dino.svg" alt="" style="width:100%;height:auto;">
+    </div>
+  </div>
+  
+  <div id="dinoSpeech" aria-hidden="true"></div>
+  <div id="lovePopupOverlay">
+    <div id="lovePopupContent">
+      <div id="popupCloseBtn">✕</div>
+      <div id="loveAnimation">
+          <div id="loveLetters"></div>
+          <div id="loveText"></div>
+      </div>
+  </div>
+  
+  </div>
+  
 <script>
   let isAuthorMode = false; // По умолчанию Shuki-режим
   /* Hearts animation */
@@ -1258,7 +1476,7 @@ function spawnButtonHeart(btn) {
 /* Calendar render with blocking logic */
 function renderCalendar() {
   cal.innerHTML = '';
-  const startDate = new Date('2025-11-23T00:00:00');
+  const startDate = new Date('2024-11-23T00:00:00');
   const now = new Date();
 
   for (let i = 1; i <= CAL_DAYS; i++) {
@@ -1334,11 +1552,377 @@ document.getElementById("loveClick").addEventListener("click", () => {
   }, 3000);
 });
 
+const phrases = [
+    "РРР! ❤️",
+    "Я тебя люблю ❤️",
+    "Приветик 😁",
+    "Ты такая милая 💘",
+    "Скучаю по тебе )",
+    "РРР! Это значит: ‘Я люблю тебя’ 😘",
+    "Привет, принцесса 😁",
+    "Ты делаешь меня счастливым каждый день 💓",
+    "Ты моё солнышко ☀️",
+    "Хочу обнять тебя прямо сейчас 🤗",
+    "Я рядом, всегда ❤️",
+    "Ты у меня самая красивая 😍",
+    "Ты моя вселенная 💗",
+    "Ты для меня слишком важная.",
+    "Мне так повезло, что ты есть."
+
+  ];
+
+
+
+
+  function spawnTinyDinoRandom(text) {
+  const d = document.createElement("img");
+  d.src = "dino.svg";
+  d.className = "tiny-dino";
+
+  // 🎉 РАНДОМНЫЙ СТАРТ ПО ВСЕМУ ЭКРАНУ
+  let x = Math.random() * (window.innerWidth - 200) + 100; 
+  let y = Math.random() * (window.innerHeight - 200) + 100;
+
+  let opacity = 1;
+
+  d.style.left = x + "px";
+  d.style.top = y + "px";
+  document.body.appendChild(d);
+
+  // 📝 текст рядом
+  const t = document.createElement("div");
+  t.textContent = text;
+  t.style.position = "fixed";
+  t.style.left = (x + 40) + "px";
+  t.style.top = (y - 10) + "px";
+  t.style.color = "#a93778";
+  t.style.fontSize = "18px";
+  t.style.fontWeight = "700";
+  t.style.pointerEvents = "none";
+  t.style.zIndex = 999999;
+  document.body.appendChild(t);
+
+  // 🌸 очень плавная скорость
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 0.3 + Math.random() * 0.6; // медленнее
+
+  const vx = Math.cos(angle) * speed;
+  const vy = Math.sin(angle) * speed;
+
+  const interval = setInterval(() => {
+    x += vx;
+    y += vy;
+
+    opacity -= 0.001; // медленное исчезновение
+
+    d.style.left = x + "px";
+    d.style.top = y + "px";
+    d.style.opacity = opacity;
+
+    t.style.left = (x + 40) + "px";
+    t.style.top = (y - 10) + "px";
+    t.style.opacity = opacity;
+
+    // если вышел за экран или исчез — удалить
+    if (
+      opacity <= 0 ||
+      x < -150 || x > window.innerWidth + 150 ||
+      y < -150 || y > window.innerHeight + 150
+    ) {
+      clearInterval(interval);
+      d.remove();
+      t.remove();
+    }
+
+  }, 16);
+}
+
+function spawnTinyDinoBurst() {
+  for (let i = 0; i < phrases.length; i++) {
+    setTimeout(() => {
+      const phrase = phrases[i];
+      spawnTinyDinoRandom(phrase);
+    }, i * 120); // красивая задержка между запуском
+  }
+}
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const peek = document.getElementById("dinoPeek");
+  const run  = document.getElementById("dinoRun");
+  const speech = document.getElementById("dinoSpeech");
+
+  peek.addEventListener("click", spawnTinyDinoBurst);
+run.addEventListener("click", spawnTinyDinoBurst);
+
+
+  function randomPhrase(){ return phrases[Math.floor(Math.random()*phrases.length)]; }
+
+  function showSpeech(text, x, y){
+    speech.innerText = text;
+    const pad = 10;
+    let left = Math.max(pad, Math.min(window.innerWidth - 180, x));
+    let top  = Math.max(pad, Math.min(window.innerHeight - 80, y));
+    speech.style.left = left + "px";
+    speech.style.top = top + "px";
+    speech.classList.add("show");
+    setTimeout(()=> speech.classList.remove("show"), 2200);
+  }
+
+  function actionPeek(){
+    peek.style.left = "-260px";
+
+    setTimeout(()=> {
+      peek.style.left = "6px";
+      peek.classList.add('peek');
+
+      const mouthX = 6 + 100;
+      const mouthY = window.innerHeight * 0.40 + 45;
+
+      showSpeech(randomPhrase(), mouthX, mouthY);
+    }, 240);
+
+    setTimeout(()=> {
+      peek.classList.remove('peek');
+      peek.style.left = "-300px";
+    }, 4000);
+  }
+
+  function actionRun(){
+    run.style.opacity = 1;
+    run.style.left = "-380px";
+
+    setTimeout(()=> {
+      run.style.left = "40px";
+      const mouthX = 40 + 130;
+      const mouthY = window.innerHeight - 120;
+      showSpeech("РРР ❤️❤️❤️", mouthX, mouthY);
+    }, 180);
+
+    setTimeout(()=> {
+      run.style.left = window.innerWidth + "px";
+    }, 4000);
+
+    setTimeout(()=> {
+      run.style.opacity = 0;
+      run.style.left = "-420px";
+    }, 4200);
+  }
+
+  function scheduleNext(){
+    const delay = 15000 + Math.random()*10000;
+    setTimeout(()=> {
+      (Math.random() < 0.85 ? actionPeek : actionRun)();
+      scheduleNext();
+    }, delay);
+  }
+
+  setTimeout(scheduleNext, 2500);
+
+  document.addEventListener('click', (e) => {
+
+// ☑️ Если клик по футеру — НЕ запускать динозавров
+if (e.target.closest('footer')) return;
+
+// ☑️ Если клик по анимации любви — тоже не мешаем
+if (e.target.closest('#lovePopupOverlay')) return;
+
+// ☑️ Если клик по динозавру
+if (e.target.closest('#dinoPeek') || e.target.closest('#dinoRun')) return;
+
+// ☑️ Если клик по кнопкам/инпутам
+if (e.target.closest('a,button,input,textarea')) return;
+
+// 🦕 запускаем рандомную анимацию
+(Math.random() < 0.5 ? actionPeek : actionRun)();
+});
+
+  window.addEventListener('resize', ()=> speech.classList.remove('show'));
+});
+
+
+const lettersList = [
+  "Я", "Т", "Е", "Б", "Я", "Л", "Ю", "Б", "Л", "Ю", "❤️"
+];
+
+const loveLines = [
+  "Я буду рядом  в любые мгновенья",
+  "В радость, в усталость, в минуты сомненья",
+
+  "Ты мой маяк среди штормов и гроз,",
+  "Рядом с тобой нет ни бед, ни угроз",
+
+  "Если ты плачешь -  тихонько приду,",
+  "Чаем согрею и крепко обниму",
+
+  "Больше тебя в этом мире - нет смысла,",
+  "Сердце моё без тебя бы зависло",
+
+  "Я не идеален, но знай что любя",
+  "Буду беречь и хранить для тебя",
+
+  "Любовь - это в дождь тебя укрывать,",
+  "Пледом накрыть и всю ночь обнимать",
+
+  "Юмор спасет нас в трудные дни",
+  "Смех - это тоже люблю, ты пойми",
+
+  "Бережно слушать, не спорить с тобой",
+  "Главное счастье, а не чей-то настрой",
+
+  "Ладить, прощать и не помнить обиды,",
+  "Вместе любые преграды осилить",
+
+  "Ювелирно ловить твой грустный взгляд",
+  "Чтобы в объятиях развеять тоску для тебя",
+
+  "И всё это — для тебя одной,",  
+  "Ты — моё счастье и моя любовь."  
+];
+
+function spawnMiniHearts(letterElem) {
+    const emojis = ["💗","💕","💖","💘","💞"];
+
+    for (let i = 0; i < 5; i++) {
+        const h = document.createElement("div");
+        h.className = "floating-heart";
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // случайное смещение
+        const offsetX = 10 + Math.random() * 25;
+        const offsetY = -5 + Math.random() * 10;
+
+        h.style.left = offsetX + "px";
+        h.style.top = offsetY + "px";
+
+        letterElem.appendChild(h);
+
+        // удалить после анимации
+        setTimeout(() => h.remove(), 1700);
+    }
+}
+
+
+function startLoveAnimation() {
+    const overlay = document.getElementById("lovePopupOverlay");
+    overlay.style.display = "flex";
+
+    const lettersBox = document.getElementById("loveLetters");
+    const textBox = document.getElementById("loveText");
+
+    lettersBox.innerHTML = "";
+    textBox.innerHTML = ""; // не используется
+
+    const rows = [];
+
+    // 1) СОЗДАЁМ СРАЗУ ВСЕ БУКВЫ БЕЗ ТЕКСТА
+    lettersList.forEach(letter => {
+        const row = document.createElement("div");
+        row.className = "love-row";
+
+        const L = document.createElement("div");
+        L.className = "love-letter";
+        L.textContent = letter;
+
+        const block = document.createElement("div");
+        block.className = "typing-block";
+
+        const l1 = document.createElement("div");
+        l1.className = "typing-line";
+
+        const l2 = document.createElement("div");
+        l2.className = "typing-line";
+
+        block.appendChild(l1);
+        block.appendChild(l2);
+
+        row.appendChild(L);
+        row.appendChild(block);
+
+        lettersBox.appendChild(row);
+
+        rows.push({ L, l1, l2 });
+    });
+
+    // 2) Анимация печати для букв (последовательно)
+    let index = 0;
+
+    function typeLine(fullText, container, cb) {
+        let i = 0;
+
+        function step() {
+            container.textContent = fullText.substring(0, i);
+            i++;
+
+            if (i <= fullText.length) {
+                setTimeout(step, 60);
+            } else {
+                cb && cb();
+            }
+        }
+        step();
+    }
+
+    function next() {
+      if (index >= rows.length) {
+
+// Добавляем пульсирующее сердце
+setTimeout(() => {
+    const lastRow = rows[rows.length - 1];
+
+    // 💥 Запуск фонтанчика мини-сердечек
+    spawnMiniHearts(lastRow.L);
+}, 260);
+
+return;
+}
+
+
+
+
+        const row = rows[index];
+        const letter = row.L;
+
+        // 🔥 Делаем букву активной
+        letter.classList.add("active");
+
+        const text1 = loveLines[index * 2];
+        const text2 = loveLines[index * 2 + 1];
+
+        typeLine(text1, row.l1, () => {
+            typeLine(text2, row.l2, () => {
+                
+
+                index++;
+                setTimeout(next, 350);
+            });
+        });
+    }
+
+    next();
+}
+
+
+
+document.getElementById("popupCloseBtn")?.addEventListener("click", () => {
+    document.getElementById("lovePopupOverlay").style.display = "none";
+});
+
+
+// Клик по фону — закрыть
+document.getElementById("lovePopupOverlay").addEventListener("click", e => {
+    if (e.target.id === "lovePopupOverlay") {
+        e.target.style.display = "none";
+    }
+});
+
+
 
 </script>
 
 </body>
 </html>
-
-
-
