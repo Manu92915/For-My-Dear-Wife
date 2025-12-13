@@ -1517,12 +1517,8 @@ function renderCalendar() {
     } else {
       d.addEventListener("click", () => {
         spawnHearts(d);                    // ❤️ сердечки на открытии
-
-        if (isAuthorMode) {
-          openDay(i);                      // режим автора
-        } else {
-          viewDay(i);                      // режим просмотра
-        }
+        viewDay(i);                      // режим просмотра
+        
       });
     }
 
