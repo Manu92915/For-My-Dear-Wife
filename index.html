@@ -1,0 +1,2831 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manuchehr & 𝒮𝒽𝓊𝓀𝓇ℴ𝓃𝒶 — Наш сайт</title>
+  <style>
+    /* Fonts & reset */
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
+    *{box-sizing:border-box} 
+    html,body{
+      min-height:100%;
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+      background:linear-gradient(135deg,#ffd7e6 0%, #fbe8ff 40%, #fff6e6 100%);
+      background-attachment: fixed; /* чтобы фон не съезжал */
+      color:#222;
+    }
+
+
+    /* Header */
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;position:sticky;top:0;
+      background:rgba(255,255,255,0.55);backdrop-filter:blur(6px);
+      z-index:40
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Great Vibes';font-size:22px;color:#a93778;
+      background:rgba(255,255,255,0.8);box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .title .names{font-family:'Great Vibes';font-size:18px;color:#8c2f62}
+    .title .sub{font-size:12px;color:#6b4a54}
+
+    /* Tabs */
+    nav.tabs{display:flex;gap:8px}
+    .tab{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.6);
+      cursor:pointer;font-weight:600;transition:transform .15s,background .2s}
+    .tab:active{transform:scale(.98)}
+    .tab.active{
+      background:linear-gradient(90deg,#ffffff,#fff0f6);
+      color:#8c2f62;box-shadow:0 6px 20px rgba(139,45,86,0.08)
+    }
+
+    /* Burger for mobile */
+    #menuBtn{display:none;font-size:26px;color:#8c2f62;cursor:pointer}
+    @media(max-width:760px){
+      #menuBtn{display:block}
+      nav.tabs{
+        display:none;position:absolute;top:64px;right:12px;background:rgba(255,255,255,0.95);
+        flex-direction:column;padding:10px;border-radius:12px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.12);max-width:85vw
+      }
+      nav.tabs.show{display:flex}
+    }
+
+    /* Layout */
+    main{
+      display:grid;grid-template-columns:1fr 350px;gap:18px;padding:20px;
+      align-items:start;min-height:calc(100vh - 110px)
+    }
+    @media(max-width:900px){main{grid-template-columns:1fr;padding:14px}}
+    .card{
+      background:rgba(255,255,255,0.8);padding:18px;border-radius:14px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.06)
+    }
+
+    /* Hero */
+    h1{font-family:'Great Vibes';font-size:44px;margin:0;color:#7a2b57}
+    p.lead{margin:8px 0;color:#5c3b45}
+
+    /* Countdown */
+    .countdown{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .unit{min-width:78px;background:white;border-radius:12px;padding:10px;text-align:center}
+    .unit .num{font-size:22px;font-weight:800;color:#6b2650}
+    .unit .lbl{font-size:12px;color:#8a6a77}
+
+    /* Calendar */
+    .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    @media(max-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+    /* Блок дня — крупнее для мобильной эстетики */
+    .day {
+      padding: 18px;
+      border-radius: 14px;
+      background: white;
+      text-align: center;
+      position: relative;
+      transition: transform 0.12s ease, box-shadow 0.20s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      font-size: 15px;
+    }
+
+    /* Анимация при тапе */
+    .day:active {
+      transform: scale(1.06);
+      box-shadow: 0 6px 18px rgba(139,45,86,0.15);
+    }
+
+    /* Номер дня жирный */
+    .day .num {
+      font-weight: 700;
+      color: #6b2650;
+    }
+
+    /* Закрытые дни */
+    .day.locked {
+      background: #f7f0f4;
+      opacity: 0.55;
+      filter: grayscale(0.6);
+    }
+
+    /* Яркий замочек — видно сразу! */
+    .day.locked::after{
+  content:"🔒";
+  position:absolute;
+  bottom:6px;      /* бантик внизу */
+  left:50%;
+  transform:translateX(-50%);
+  font-size:20px;
+  opacity:0.9;
+}
+
+
+    /* Открытые дни — нежная рамка */
+    .day:not(.locked) {
+      border: 2px solid #ffd6e7;
+    }
+
+    /* Заполненные дни — сердечко */
+    .day.filled::after {
+     
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-size: 17px;
+      opacity: 0.85;
+    }
+
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,0.45);
+      display:flex;align-items:center;justify-content:center;
+      z-index:90;
+    }
+    .modal{
+      width:min(780px,96%);
+      background:white;border-radius:12px;padding:16px;
+    }
+    textarea,input{
+      width:100%;padding:10px;border-radius:8px;
+      border:1px solid #e8dfe6;margin-top:8px
+    }
+    .modal .actions{
+      display:flex;gap:8px;justify-content:flex-end;margin-top:10px
+    }
+
+    /* Fade transition */
+    .fade{opacity:0;transition:opacity .35s ease,transform .35s ease;transform:translateY(6px)}
+    .fade.show{opacity:1;transform:none}
+
+    /* Hearts canvas */
+    #hearts{position:fixed;inset:0;pointer-events:none;z-index:5}
+
+    footer{padding:14px;text-align:center;color:#7a3650}
+    /* CSS для всплывающих сердечек */
+    .heart-pop {
+      position: absolute;
+      pointer-events: none;
+      font-size: 18px;
+      animation: heartFloat 1s ease-out forwards;
+      opacity: 0;
+      z-index: 99999;          /* ❤️ поверх всего */
+      transform-origin: center;
+    }
+
+
+    @keyframes heartFloat {
+      0% { transform: translateY(0) scale(0.8); opacity: 1; }
+      50% { transform: translateY(-20px) scale(1); opacity: 1; }
+      100% { transform: translateY(-40px) scale(1.25); opacity: 0; }
+    }
+
+    .modal-heart {
+      position: fixed;
+      font-size: 35px;
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0;
+      animation: floatModalHearts 1.4s ease-out forwards;
+    }
+
+    @keyframes floatModalHearts {
+      0%   { transform: translateY(0) scale(0.9); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translateY(-60px) scale(1.3); opacity: 0; }
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ffb8d8, #ffdae9);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #7a2b57;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 12px rgba(139, 45, 86, 0.15);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(139, 45, 86, 0.25);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-heart {
+      position: absolute;
+      font-size: 18px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(0) scale(0.8);
+      animation: btnHeartFloat 0.8s ease-out forwards;
+      z-index: 999999;
+    }
+
+    @keyframes btnHeartFloat {
+      0%   { opacity: 1; transform: translateY(0) scale(0.9); }
+      70%  { opacity: 1; transform: translateY(-22px) scale(1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
+    }
+
+
+    /* Анимация появления модалки */
+    .modal-backdrop {
+      animation: backdropFadeIn 0.35s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes backdropFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal {
+      animation: modalShow 0.35s ease forwards;
+      transform: translateY(20px) scale(0.96);
+      opacity: 0;
+    }
+
+    @keyframes modalShow {
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Анимация исчезновения */
+    .modal-backdrop.hide {
+      animation: backdropFadeOut 0.3s ease forwards;
+    }
+
+    @keyframes backdropFadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    .modal.hide {
+      animation: modalHide 0.3s ease forwards;
+    }
+
+    @keyframes modalHide {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(20px) scale(0.96);
+        opacity: 0;
+      }
+    }
+
+
+
+    .poem-block {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .poem {
+      white-space: pre-line;
+      margin-top: 8px;
+      font-family: 'Dancing Script', 'Great Vibes', cursive;
+      font-size: 22px;
+      color: #6b2650;
+    }
+
+    .my-poem-title {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 22px;
+      color: #8c2f62;
+    }
+
+    /* Само ❤️ */
+    .heart-source {
+      position: relative;
+      display: inline-block;
+      font-size: 22px;
+    }
+
+    /* Контейнер для вылета сердечек */
+    .heart-source .heart-fountain {
+      position: absolute;
+      bottom: 0;         /* стартуют прямо из сердечка */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 120px;     /* насколько высоко летят */
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* Маленькие сердечки */
+    .heart-source .heart-fountain span {
+      position: absolute;
+      bottom: 0;
+      font-size: 14px;
+      opacity: 0.9;
+      animation: heartUp 0.9s linear infinite;
+    }
+
+    /* Анимация "фонтанчика" — быстро вверх */
+    @keyframes heartUp {
+      0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-40px) scale(1);
+      }
+      100% {
+        transform: translateY(-90px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* Рандомные позиции и задержки */
+    .heart-source .heart-fountain span:nth-child(1){ left: 2px;  animation-delay: 0s;   }
+    .heart-source .heart-fountain span:nth-child(2){ left: 12px; animation-delay: 0.1s; }
+    .heart-source .heart-fountain span:nth-child(3){ left: 20px; animation-delay: 0.2s; }
+    .heart-source .heart-fountain span:nth-child(4){ left: 8px;  animation-delay: 0.3s; }
+    .heart-source .heart-fountain span:nth-child(5){ left: 16px; animation-delay: 0.15s; }
+    
+
+    .highlight-glow {
+      color: #a93778;
+      text-shadow: 0 0 6px rgba(255, 180, 220, 0.8);
+      animation: glowPulse 1.3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 4px rgba(255, 180, 220, 0.5); }
+      50% { text-shadow: 0 0 10px rgba(255, 120, 200, 0.9); }
+      100% { text-shadow: 0 0 4px rgba(255, 180, 220, 0.5); }
+    }
+
+
+    .bride-line {
+      position: relative;
+      display: inline-block;
+    }
+
+    .pulse-heart {
+      display: inline-block;      /* ← ЭТО главное! */
+      font-size: 20px;
+      margin: 0 6px;
+      animation: pulseHeart 0.95s ease-in-out infinite;
+      transform-origin: center center; /* чтобы сердце увеличивалось ровно */
+    }
+
+    @keyframes pulseHeart {
+      0%   { transform: scale(1); opacity: 0.85; }
+      50%  { transform: scale(1.45); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.85; }
+    }
+
+    .promise-glow {
+      font-size: 23px;
+      color: #b02d74;
+      font-weight: 600;
+      text-shadow: 0 0 6px rgba(255, 160, 220, 0.7);
+      animation: promisePulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes promisePulse {
+      0% { text-shadow: 0 0 4px rgba(255, 160, 220, 0.4); }
+      50% { text-shadow: 0 0 12px rgba(255, 100, 200, 0.9); }
+      100% { text-shadow: 0 0 4px rgba(255, 160, 220, 0.4); }
+    }
+
+    .love-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px 26px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(255, 100, 170, 0.35);
+      font-size: 20px;
+      font-family: 'Dancing Script', cursive;
+      color: #a93778;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999999;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .love-popup.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .dino {
+  position: fixed;
+  pointer-events: auto; /* ← разрешаем клики */
+  z-index: 99999;
+  transform-origin: left center;
+  cursor: pointer; /* красиво — показывает, что можно нажимать */
+}
+
+
+/* ВЫГЛЯДЫВАНИЕ из левого угла (можно смещать top) */
+#dinoPeek {
+  top: 40%;
+  left: -260px;               /* старт за экраном */
+  transition: left 0.8s cubic-bezier(.2,.9,.2,1);
+  width: 140px;
+  height: auto;
+}
+
+/* ПРОБЕЖКА снизу */
+#dinoRun {
+  bottom: 12px;
+  left: -360px;               /* старт за экраном */
+  transition: left 0.7s cubic-bezier(.2,.9,.2,1);
+  width: 180px;
+  height: auto;
+}
+
+/* обёртка для SVG, чтобы можно было управлять размером */
+.dino .svg-wrap { width: 100%; height: auto; display:block; }
+
+/* пузырёк речи */
+#dinoSpeech {
+  position: fixed;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: linear-gradient(180deg,#fff,#fff7fb);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.12);
+  font-size: 16px;
+  color: #6b2650;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .28s ease, transform .28s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
+#dinoSpeech.show { opacity: 1; transform: translateY(0); }
+
+/* немножко «peek» эффект (подпрыгивание) */
+.dino.peek { transform: translateY(-6px) scale(1.02); transition: transform .18s ease; }
+
+/* адаптив: уменьшаем размеры на узких экранах */
+@media(max-width:600px){
+  #dinoPeek { width: 110px; }
+  #dinoRun  { width: 140px; }
+  #dinoSpeech { font-size:14px; }
+}
+
+.tiny-dino {
+  position: fixed;
+  width: 45px;
+  height: auto;
+  pointer-events: none;
+  opacity: 1;
+  z-index: 999999;
+}
+
+#lovePopupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999;
+}
+
+#lovePopupContent {
+  position: relative;
+  width: 95vw;
+  height: 95vh;
+  max-width: 95vw;
+  max-height: 95vh;
+
+  background: rgba(255,255,255,0.92);
+  padding: 40px;
+  padding-left: 0;
+  border-radius: 25px; /* убираем скругления, если нужно */
+  overflow-y: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* чтобы текст был сверху */
+  animation: popupFade .4s ease;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+
+  /* Блок с буквами */
+  #loveLetters {
+  display: flex;
+  flex-direction: column;  /* буквы вертикально */
+  gap: 18px;
+  margin-right: 20px;
+}
+
+.love-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.love-letter {
+  position: relative;
+  font-size: 38px;
+  font-weight: 700;
+  color: #b5b5b5; /* серая */
+  transition: color .35s, text-shadow .35s;
+  min-width: 28px;
+  text-align: center;
+}
+
+.love-letter.active {
+  color: #ffd53b;
+  text-shadow: 0 0 12px rgba(255, 230, 90, 1);
+}
+
+.typing-block {
+  display: flex;
+  flex-direction: column;
+  font-family: "Dancing Script", cursive;
+  font-size: 12px;
+  white-space: pre-line;
+  color: #6b2650;
+}
+
+.typing-line {
+  min-height: 26px;
+}
+
+#popupCloseBtn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 21px;
+  cursor: pointer;
+  color: #a93778;
+  font-weight: 700;
+  transition: transform .2s, opacity .2s;
+  opacity: 0.75;
+}
+
+#popupCloseBtn:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.final-heart {
+  position: absolute;
+  left: 36px;        /* справа от буквы */
+  top: 50%;          /* вертикальный центр */
+  transform: translateY(-50%);  /* центрируем идеально */
+  font-size: 26px;
+  pointer-events: none;
+  animation: finalPulse 1.2s ease-in-out infinite;
+}
+
+
+@keyframes finalPulse {
+  0%   { transform: scale(1); opacity: 0.9; }
+  50%  { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0;
+  animation: floatHeart 1.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes floatHeart {
+  0%   { transform: translateY(0) scale(0.7); opacity: 1; }
+  50%  { transform: translateY(-20px) scale(1); opacity: 1; }
+  100% { transform: translateY(-45px) scale(1.3); opacity: 0; }
+}
+
+/* Для маленьких экранов — уменьшаем попап и сдвигаем крестик */
+@media(max-width: 500px){
+
+  #popupCloseBtn {
+    top: 8px;
+    right: 10px;
+    font-size: 18px;      /* чуть меньше */
+  }
+
+  .love-letter {
+    font-size: 30px;      /* уменьшить буквы, чтобы текст влез */
+  }
+
+  .typing-block {
+    font-size: 11px;      /* под текст */
+  }
+}
+
+
+.heart-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+/* форма сердца через opacity */
+.heart-grid .cell {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.heart-grid .cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heart-grid .cell.show {
+  opacity: 1;
+}
+
+.heart-grid .cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(255,100,170,0.35);
+}
+
+/* 📱 МОБИЛЬНАЯ АДАПТАЦИЯ СЕРДЦА */
+@media (max-width: 600px) {
+
+.heart-grid {
+  grid-template-columns: repeat(6, 1fr); /* было 12 */
+  gap: 6px;
+  justify-content: center;
+}
+
+.heart-grid .cell {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+}
+
+/* 📱 очень маленькие экраны */
+@media (max-width: 400px) {
+
+.heart-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.heart-grid .cell {
+  width: 44px;
+  height: 44px;
+}
+}
+
+
+/* 🔍 FULLSCREEN IMAGE VIEWER */
+.image-viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999;
+  touch-action: none;
+}
+
+.image-viewer img {
+  max-width: 95vw;
+  max-height: 95vh;
+  border-radius: 16px;
+  transform-origin: center center;
+  transition: transform 0.15s ease;
+  cursor: grab;
+}
+
+.image-viewer img:active {
+  cursor: grabbing;
+}
+
+.image-viewer-close {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+  opacity: 0.85;
+  z-index: 100000000;
+}
+
+.image-viewer-close:hover {
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+
+  <canvas id="hearts"></canvas>
+
+  <header>
+    <div class="brand">
+      <div class="logo">M&S</div>
+      <div class="title">
+        <div class="names">Manuchehr & 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶 (Shuki)</div>
+        <div class="sub">Мир, созданный только для нас</div>
+      </div>
+    </div>
+    <div id="menuBtn">☰</div>
+
+    <nav class="tabs" id="navTabs">
+      <div class="tab active" data-tab="home">Главная</div>
+      <div class="tab" data-tab="heart">Её мысли ❤️</div>
+      <div class="tab" data-tab="thoughts">Мои мысли</div>
+      <div class="tab" data-tab="dreams">Наши мечты</div>
+      <div class="tab" data-tab="likes">Наши маленькие совпадения</div>
+      <div class="tab" data-tab="poems">Наши стихи</div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="card fade">
+      <h1>Мы скоро будем вместе</h1>
+      <p class="lead">Каждый день — маленькая мысль, большое чувство. Счётчик до нашей свадьбы:</p>
+
+      <div class="countdown">
+        <div class="unit"><div class="num" id="days">--</div><div class="lbl">Дней</div></div>
+        <div class="unit"><div class="num" id="hours">--</div><div class="lbl">Часов</div></div>
+        <div class="unit"><div class="num" id="minutes">--</div><div class="lbl">Минут</div></div>
+        <div class="unit"><div class="num" id="seconds">--</div><div class="lbl">Секунд</div></div>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="btn" id="gotoThoughts">Открыть "Мои мысли"</button>
+      </div>
+    </section>
+
+    <section id="thoughts" class="card fade" style="display:none">
+      <h2>Мои мысли — 30 дней</h2>
+      <p>Кликни на номер дня, чтобы открыть запись.</p>
+      <div class="grid" id="calendar"></div>
+    </section>
+
+    <section id="dreams" class="card fade" style="display:none">
+      <h2 style="margin-bottom:14px;">Мечты</h2>
+
+
+      <h3 style="color:#8c2f62; margin-top:24px;">Её мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Станцевать вальс на свадьбе.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в Корею.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Стать педиатром.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Готовить для меня, болтать часами со мной, встречать меня с работы, гулять со мной.
+      </div>
+
+      <!-- Мои мечты -->
+      <h3 style="color:#8c2f62; margin-top:24px;">Мои мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Однажды просыпаться рядом с тобой каждое утро.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Путешествовать с тобой в новые города и страны, просто держась за руки.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Увидеть, как ты улыбаешься каждый день — и быть причиной этой улыбки.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Хочу готовить для тебя, помогать тебе, болтать часами с тобой, гулять с тобой, хочу чтобы встречала с работы.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Поехать в диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Куча денег и огромный дом.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Прыгнуть с парашютом.
+      </div>
+    
+      <!-- Наши мечты -->
+      <h3 style="color:#8c2f62; margin-top:24px;">Наши мечты</h3>
+      <div class="card" style="margin-top:10px">
+        Полететь вместе в Корею.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Посетить Диснейленд.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Построить тёплый дом, в котором будет много света и смеха.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Делать все все вместе. Учиться, развиваться, гулять, смотреть фильмы и сериалы, играть, болтать, дурачиться, помогать и поддерживать.
+      </div>
+      <div class="card" style="margin-top:10px">
+        Посетить самые прекрасные места в мире.
+      </div>
+    </section>
+    
+
+    <section id="likes" class="card fade" style="display:none">
+      <h2>Наши маленькие совпадения</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <div class="card">✍️ Плохой почерк (но у тебя красивее)</div>
+        <div class="card">🎂 Оба родились в августе — разница всего 5 дней (8 и 13)</div>
+        <div class="card">🫖 Любим чай</div>
+        <div class="card">🥔 Любим жареную картошку</div>
+        <div class="card">💬 Любим болтать друг с другом</div>
+        <div class="card">🎧 Слушаем музыку</div>
+        <div class="card">🏡 Любим сидеть дома, но и путешествовать тоже</div>
+        <div class="card">🚶‍♂️🚶‍♀️ Любим гулять</div>
+        <div class="card">Может совпадений куда больше. Скоро узнаем 😁</div>
+      </div>
+    </section>
+
+    <section id="poems" class="card fade" style="display:none">
+      <h2 style="margin-bottom:16px;">Наши стихи</h2>
+    
+      <div class="poem-block">
+        <h3 class="my-poem-title">
+          Её стих 
+          <span class="heart-source">💘
+            <div class="heart-fountain">
+              <span>💗</span>
+              <span>💖</span>
+              <span>💕</span>
+              <span>💘</span>
+              <span>💞</span>
+            </div>
+          </span>
+        </h3>
+        <p class="poem">Август. Тот день, что изменил мой мир,
+          Мы вышли на встречу не зная друг-друга,
+          Он улыбался, смотрел боком глаз,
+          Словно знал, что судьба нас свела в этот час,
+          Уже с сентября мы начали общаться,
+          С ним каждый день становился светлей
+          Комплименты делает он, внезапно
+          Неожиданно словно ветер весенний
+          Немного тайн в нём и шутник большой такой,
+          Немного загадочный, с доброй душой
+          Говорит, что не так уж красноречив
+          Но каждое сообщение читаю с улыбкой
+          Когда он рядом, мир вдруг замирает
+          И каждый вдох, наполнен лишь теплом
+          Его улыбка солнце затмевает,
+          И все проблемы исчезают за углом
+          Летят минуты, дни за днями тают,
+          Как будто река времени течет,
+          Ведь нас ждёт день особенный и яркий,<span class="highlight-glow">
+          День нашей свадьбы что скоро придет.
+          Как же жду, я этот миг чудесный,<span class="bride-line">Когда он будет мужем<span class="pulse-heart">💗</span>я — женой</span></span>
+          Наш путь совместный самый интересный,
+          Начнётся той заветною весной.
+        </p>
+      </div>
+    
+      <div class="poem-block">
+        <h3 class="my-poem-title">
+          Мой стих 
+          <span class="heart-source">❤️
+            <div class="heart-fountain">
+              <span>💗</span>
+              <span>💖</span>
+              <span>💕</span>
+              <span>💘</span>
+              <span>💞</span>
+            </div>
+          </span>
+        </h3>
+        <p class="poem"><span class="promise-glow" id="loveClick">Ты любовь моя,
+          И я тебя люблю,</span>
+          И не отпущу,
+          Помни ты всегда,
+          С тобою навсегда,
+          И в горе и в радости,
+          Останусь верен я,
+          Если ты Жасмин,
+          Я твой Алладин,
+          Ты моя принцесса,
+          А я твой паладин,
+          Иногда, меня много,
+          Иногда, почти незаметен,
+          Но знай ты всегда и не сомневайся,
+          <span class="promise-glow">Ты моя, а я твой на веки</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="heart" class="card fade" style="display:none">
+      <h2>Сердце из мыслей</h2>
+      <p style="color:#6b3b50">
+        Выбери любую частичку сердца 💗  
+        Там — твоя мысль, и мой ответ.
+      </p>
+    
+      <div id="heartGrid" class="heart-grid"></div>
+    </section>
+    
+    
+  </main>
+
+  <footer onclick="startLoveAnimation()">Сделано с любовью <br>Manuchehr ❤️ 𝒮𝒽𝓊𝓴𝓇ℴ𝓃𝒶</footer>
+
+  <div id="modal-root" style="display:none"></div>
+  <div id="loveMessage" class="love-popup">
+    Я тебя сильно люблю и хочу уже утопить тебя в своих объятиях
+  </div>
+
+  <div id="dinoPeek" class="dino" aria-hidden="true">
+    <div class="svg-wrap">
+      <img src="dino.svg" alt="" style="width:100%;height:auto;">
+    </div>
+  </div>
+  
+  <div id="dinoRun" class="dino" aria-hidden="true">
+    <div class="svg-wrap">
+      <img src="dino.svg" alt="" style="width:100%;height:auto;">
+    </div>
+  </div>
+  
+  <div id="dinoSpeech" aria-hidden="true"></div>
+  <div id="lovePopupOverlay">
+    <div id="lovePopupContent">
+      <div id="popupCloseBtn">✕</div>
+      <div id="loveAnimation">
+          <div id="loveLetters"></div>
+          <div id="loveText"></div>
+      </div>
+  </div>
+  
+  </div>
+  
+<script>
+  let isAuthorMode = false; // По умолчанию Shuki-режим
+  /* Hearts animation */
+
+
+  const DIARY = {
+  1: {
+    text: "Сегодня начинается наш маленький путь… 30 дней, 30 мыслей, 30 кусочков моего сердца только для тебя, моя 𝒮𝓱𝓾𝓴𝓲 ❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  2: {
+    text: "Иногда я ловлю себя на мысли, что хочу рассказывать тебе вообще всё - даже самые маленькие вещи. Ты стала моей привычкой, моей тихой радостью каждый день.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  3: {
+    text: "Когда ты пишешь мне, у меня внутри будто загорается маленький фонарик. И даже если день тяжёлый - ты делаешь его мягким и светлым <3.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  4: {
+    text: "Мне нравится, что мы можем говорить обо всём. Ты та самая пресамая, с кем я хочу быть настоящим. Без масок, без игр, просто собой.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  5: {
+    text: "Иногда я думаю: каким чудом ты вообще появилась в моей жизни? И как я раньше жил без тебя…)",
+    image: "",
+    video: "",
+    music: ""
+  },
+  6: {
+    text: "Ты даже не представляешь, насколько ты влилась в мои мысли. Где бы я ни был, что бы ни делал - ты всегда со мной 😊.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  7: {
+    text: "Мне нравится представлять, как мы идём рядом, смеёмся, выбираем фильм, гуляем, просто молчим… и всё равно вместе.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  8: {
+    text: "Каждый раз, когда вижу твое сообщение, я будто слышу твой голос. И это самое тёплое чувство за день. 🥰",
+    image: "",
+    video: "",
+    music: ""
+  },
+  9: {
+    text: "Я люблю, как ты думаешь. Как реагируешь. Как говоришь. Ты - моя маленькая Вселенная, в которой всегда тепло 💗.",
+    image: "",
+    video: "",
+    music: "for site.m4a"
+  },
+  10: {
+    text: "Если бы ты знала, как много нежности у меня к тебе… Иногда даже не помещается внутри ❤️‍🔥❤️‍🔥❤️‍🔥",
+    image: "",
+    video: "",
+    music: ""
+  },
+  11: {
+    text: "Мне важен каждый твой день. Хочу, чтобы ты была спокойной, счастливой и чтобы ты чувствовала мою поддержку, даже если пока что я не рядом.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  12: {
+    text: "Ты умеешь вдохновлять меня просто тем, что существуешь. Благодаря тебе я стал мягче… и лучше. 😁😁😁",
+    image: "",
+    video: "",
+    music: ""
+  },
+  13: {
+    text: "Мне нравится твой характер. Даже когда ты в шутку обижаешься - ты всё равно самая самая любимая ❤️❤️❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  14: {
+    text: "Я жду когда однажды проснусь и увижу тебя рядом. Видеть, как ты спишь, как тихо дышишь. Как будто весь мир рядом со мной.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  15: {
+    text: "Спасибо тебе за то, что ты есть. За то, что читаешь эти строки. За то, что стала той, ради которой я стараюсь 💘",
+    image: "",
+    video: "",
+    music: ""
+  },
+  16: {
+    text: "Ты - самое красивое чувство, которое со мной когда-либо случалось. Не громкое. Не резкое. А тихое, нежное, настоящее.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  17: {
+    text: "Иногда мне кажется, что между нами есть что-то своё… то, что понимаем только мы. И мне это очень нравится. 😁💞",
+    image: "",
+    video: "",
+    music: ""
+  },
+  18: {
+    text: "Я знаю, что мы справимся со всем. Потому что у нас есть доверие. И у нас есть мы.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  19: {
+    text: "Когда ты улыбаешься — мне будто весь мир улыбается. Ты даже не знаешь, насколько ты особенная 🤍",
+    image: "",
+    video: "",
+    music: ""
+  },
+  20: {
+    text: "Мне хочется делать тебя счастливой каждый день. Маленькими действиями, словами, вниманием. Ты этого достойна.😊",
+    image: "",
+    video: "",
+    music: ""
+  },
+  21: {
+    text: "Если бы я мог, я бы сейчас обнял тебя так тихо, так осторожно… чтобы ты почувствовала - ты дома. 🤗🤗🤗",
+    image: "",
+    video: "",
+    music: ""
+  },
+  22: {
+    text: "Я люблю тебя. Просто люблю. Сильно сильно. До безумия. Ты моя первая и единственная любовь. Ты со мной навсегда моя пингвиниха❤️😁🐧",
+    image: "",
+    video: "",
+    music: ""
+  },
+  23: {
+    text: "Когда ты говоришь что-то доброе - у меня на сердце теплее 💘",
+    image: "",
+    video: "",
+    music: ""
+  },
+  24: {
+    text: "Ты - то чувство, которое хочется держать аккуратно. Ты для меня важна, очень важна ❤️❤️❤️❤️❤️",
+    image: "",
+    video: "",
+    music: ""
+  },
+  25: {
+    text: "Мне нравится мечтать о будущем с тобой. Представлять маленькие моменты, которых ещё нет, но которые точно будут. 😌😊",
+    image: "",
+    video: "",
+    music: ""
+  },
+  26: {
+    text: "Ты меня вдохновляешь. Мне хочется работать, расти, становиться лучше - для тебя, для нас.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  27: {
+    text: "Мне нравится думать о том, что однажды мы будем вспоминать это время с улыбкой. Оно - начало нашего пути.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  28: {
+    text: "Шуки, ты не просто жена. Ты - моя тёплая мысль каждый день. Мой человек. Моё маленькое чудо.💖💓💫",
+    image: "",
+    video: "",
+    music: ""
+  },
+  29: {
+    text: "Спасибо, что открылась мне. Что доверяешь. Что позволяешь любить тебя так, как умею.",
+    image: "",
+    video: "",
+    music: ""
+  },
+  30: {
+    text: "Это последний день, но не последний шаг. Впереди наша жизнь. И я хочу пройти её рядом с тобой. Я тебя люблю ❤️",
+    image: "",
+    video: "",
+    music: ""
+  }
+};
+
+
+  function closeModalSmooth() {
+  const root = document.getElementById("modal-root");
+  const backdrop = root.querySelector(".modal-backdrop");
+  const modal = root.querySelector(".modal");
+
+  if (!backdrop || !modal) return;
+
+  backdrop.classList.add("hide");
+  modal.classList.add("hide");
+
+  // После анимации просто убрать окно
+  setTimeout(() => {
+    root.style.display = "none";
+    root.innerHTML = "";
+  }, 300); // совпадает с CSS animation: 0.3s
+}
+
+
+function spawnModalHearts() {
+  const modal = document.querySelector(".modal");
+  if (!modal) return;
+
+  const rect = modal.getBoundingClientRect();
+  const emojis = ['💗','💘','💖','💕','💞','❤️‍🔥'];
+
+  for (let i = 0; i < 6; i++) {
+    const h = document.createElement("div");
+    h.className = "modal-heart";
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    const x = rect.left + Math.random() * rect.width;
+    const y = rect.top + rect.height + 20;
+
+    h.style.left = `${x}px`;
+    h.style.top = `${y}px`;
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 1500);
+  }
+}
+
+function enableAuthorMode() {
+  isAuthorMode = true;
+  localStorage.setItem("shuki_author", "1");
+  alert("Режим автора включён ❤️");
+}
+
+// если ты ранее включал — сразу включится
+if (localStorage.getItem("shuki_author") === "1") {
+  isAuthorMode = true;
+}
+
+function installSecretTouch(element, dayNumber) {
+  let clickCount = 0;
+  let lastClickTime = 0;
+  let holdTimer;
+
+  element.addEventListener("mousedown", start);
+  element.addEventListener("touchstart", start);
+
+  element.addEventListener("mouseup", cancel);
+  element.addEventListener("mouseleave", cancel);
+  element.addEventListener("touchend", cancel);
+
+  function start(e) {
+    const now = Date.now();
+
+    if (now - lastClickTime < 350) {
+      clickCount++;
+    } else {
+      clickCount = 1;
+    }
+
+    lastClickTime = now;
+
+    if (clickCount === 2) {
+      // длинное удержание
+      holdTimer = setTimeout(() => {
+        enableAuthorMode();
+      }, 900);
+    }
+  }
+
+  function cancel() {
+    clearTimeout(holdTimer);
+  }
+}
+(function(){
+  const canvas=document.getElementById('hearts');
+  const ctx=canvas.getContext('2d');
+  let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
+  addEventListener('resize',()=>{w=canvas.width=innerWidth;h=canvas.height=innerHeight});
+
+  function r(a,b){return Math.random()*(b-a)+a}
+
+  const parts=[];
+
+  function make(){
+    const purple = Math.random() < 0.7; // 70% пурпурные
+
+    return {
+      x: r(0, w),
+      y: h + 40,
+      vx: r(-0.4, 0.4),
+      vy: r(-1.4, -0.5),
+      s: r(12, 30),
+      o: purple ? r(0.35, 0.9) : 1,   // белые всегда непрозрачные
+      rot: r(0, Math.PI * 2),
+      purple: purple                 // добавили флаг цвета
+    };
+  }
+
+  for(let i=0;i<34;i++) parts.push(make());
+
+  function draw(p){
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.scale(p.s / 40, p.s / 40);
+
+    ctx.beginPath();
+    ctx.moveTo(0,-8);
+    ctx.bezierCurveTo(20,-40,60,-40,60,-8);
+    ctx.bezierCurveTo(60,30,30,50,0,70);
+    ctx.bezierCurveTo(-30,50,-60,30,-60,-8);
+    ctx.bezierCurveTo(-60,-40,-20,-40,0,-8);
+    ctx.closePath();
+
+    // 🎨 Цвет: пурпурный с прозрачностью, белый — полностью плотный
+    if (p.purple) {
+      ctx.fillStyle = `rgba(171,68,118,${p.o})`;
+    } else {
+      ctx.fillStyle = `rgba(255,255,255,1)`;
+    }
+
+    ctx.fill();
+    ctx.restore();
+  }
+
+  (function loop(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<parts.length;i++){
+      const p = parts[i];
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += 0.01;
+
+      draw(p);
+
+      if(p.y < -120 || p.x < -120 || p.x > w+120){
+        parts[i] = make();
+      }
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+
+
+/* Tabs SPA */
+const tabsNode=document.getElementById('navTabs');
+const tabBtns=document.querySelectorAll('.tab');
+const screens={
+  home:document.getElementById('home'),
+  heart:document.getElementById('heart'),
+  thoughts:document.getElementById('thoughts'),
+  dreams:document.getElementById('dreams'),
+  likes:document.getElementById('likes'),
+  poems:document.getElementById('poems')
+};
+Object.values(screens).forEach(s=>s.classList.add('fade'));
+
+function activate(name){
+  tabBtns.forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  Object.keys(screens).forEach(k=>{
+    if(k===name){
+      screens[k].style.display='block';
+      setTimeout(()=>screens[k].classList.add('show'),20)
+    } else {
+      screens[k].classList.remove('show');
+      setTimeout(()=>screens[k].style.display='none',250)
+    }
+  });
+  document.getElementById('hearts').style.opacity=(name==='home'?1:0.45);
+  localStorage.setItem('shuki_last_tab',name);
+}
+
+tabBtns.forEach(b=>b.addEventListener('click',()=>{activate(b.dataset.tab);navTabs.classList.remove('show')}));
+document.getElementById('menuBtn').addEventListener('click',e=>{e.stopPropagation();navTabs.classList.toggle('show')});
+document.addEventListener('click',e=>{if(!navTabs.contains(e.target)&&e.target.id!=='menuBtn')navTabs.classList.remove('show')});
+
+activate(localStorage.getItem('shuki_last_tab') || 'home');
+
+document.getElementById('gotoThoughts').addEventListener('click',()=>activate('thoughts'));
+
+/* Countdown */
+const target = new Date('2026-04-05T00:00:00');
+function updateCountdown(){
+  const now=new Date();
+  let diff=Math.max(0,Math.floor((target-now)/1000));
+  const days=Math.floor(diff/86400); diff%=86400;
+  const hours=Math.floor(diff/3600); diff%=3600;
+  const mins=Math.floor(diff/60); const secs=diff%60;
+
+  document.getElementById('days').textContent=days;
+  document.getElementById('hours').textContent=String(hours).padStart(2,'0');
+  document.getElementById('minutes').textContent=String(mins).padStart(2,'0');
+  document.getElementById('seconds').textContent=String(secs).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* ===== THOUGHTS: improved block/unblock system ===== */
+const CAL_DAYS=30;
+const STORAGE_KEY='shuki_thoughts_v1';
+let diary={};
+try{diary=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch(e){diary={}}
+
+const cal=document.getElementById('calendar');
+
+/* Modal for locked */
+function showLockedModal(n, unlockDate) {
+  const root = document.getElementById('modal-root');
+  root.style.display = 'block';
+
+  // разные милые фразы 💗
+  const messages = [
+    "Я знаю, что тебе так хочется открыть… но чуть-чуть подожди ещё 😘",
+    "Не торопись, любимая. Время скоро придёт ❤️",
+    "Ты такая любопытная… но я специально прячу это для особенного момента 💕",
+    "Еще чуть-чуть, моя хорошая. Я готовлю что-то милое для тебя 🌸",
+    "Подожди ещё немного… я хочу, чтобы этот момент был особенным 💗",
+    "Ты уже хочешь заглянуть? Хитрюлька 😍 но пока нельзя.",
+    "Потерпи, любовь моя. Это станет ещё приятнее, когда откроется 💞",
+    "Я знаю, что ты ждёшь… и мне это так нравится 🌺",
+    "Еще не время, солнышко. Но скоро-скоро 💘",
+    "Ммм… любопытная малышка. Но сегодня этот день ещё спит 🌙"
+  ];
+
+  // выбираем случайную фразу
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+  const dateStr = unlockDate.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long'
+  });
+
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n} пока закрыт 🔒</h3>
+
+        <p style="margin-top:10px;font-size:16px;color:#6b3b50;">
+          ${randomMessage}
+        </p>
+
+        <p style="margin-top:6px;font-size:14px;color:#8c6575;">
+          Он откроется автоматически <b>${dateStr}</b>.
+        </p>
+
+        <div class="actions">
+          <button class="btn" id="closeLocked">Понятно ❤️</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+
+  document.getElementById("closeLocked").addEventListener("click", () => {
+    closeModalSmooth();
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+}
+
+
+/* Regular modal */
+function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function viewDay(n) {
+  const cur = DIARY[n] || { text:"", image:"", video:"", music:"" };
+  const root = document.getElementById("modal-root");
+  root.style.display = "block";
+
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n}</h3>
+
+        <p style="margin-top:12px;color:#6b3b50;">
+          ${escapeHtml(cur.text || "Запись появится позже 💗")}
+        </p>
+
+        ${cur.image ? `<img src="${cur.image}" style="width:100%;margin-top:10px;border-radius:10px;">` : ""}
+
+        ${cur.video ? `<iframe style="width:100%;height:200px;margin-top:10px;border-radius:10px;"
+            src="${cur.video.replace("watch?v=", "embed/")}" frameborder="0"></iframe>` : ""}
+
+        ${cur.music ? `<audio controls style="width:100%;margin-top:10px;">
+            <source src="${cur.music}">
+          </audio>` : ""}
+
+        <div class="actions">
+          <button class="btn" id="closeView">Хорошо 💗</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("closeView").addEventListener("click", () => {
+    closeModalSmooth();
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+}
+
+function openDay(n){
+  const cur=diary[n]||{text:'',image:'',video:'',music:''};
+  const root=document.getElementById('modal-root');
+  root.style.display='block';
+
+  root.innerHTML=`
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <h3>День ${n}</h3>
+
+        <label>Текст</label>
+        <textarea id="m_text">${escapeHtml(cur.text)}</textarea>
+
+        <label>Ссылка на изображение (опционально)</label>
+        <input id="m_image" type="text" value="${escapeHtml(cur.image)}">
+
+        <label>Ссылка на видео (YouTube)</label>
+        <input id="m_video" type="text" value="${escapeHtml(cur.video)}">
+
+        <label>Ссылка на аудио</label>
+        <input id="m_music" type="text" value="${escapeHtml(cur.music)}">
+
+        <div class="actions">
+          <button class="btn" id="saveBtn">Сохранить</button>
+          <button class="btn" id="closeBtn">Назад</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('closeBtn').addEventListener('click',()=>{
+    root.style.display='none';
+    root.innerHTML='';
+  });
+  setTimeout(() => spawnModalHearts(), 30);
+
+
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    diary[n]={
+      text:document.getElementById('m_text').value,
+      image:document.getElementById('m_image').value,
+      video:document.getElementById('m_video').value,
+      music:document.getElementById('m_music').value
+    };
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(diary));
+    root.style.display='none';root.innerHTML='';
+    renderCalendar();
+  });
+}
+
+function spawnHearts(element, count = 3) {
+  // element — DOM-узел .day (у него position:relative в CSS)
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+
+  // если элемент не позиционирован относительно — сделаем временно
+  if (getComputedStyle(element).position === 'static') {
+    element.style.position = 'relative';
+  }
+
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    // можно варьировать эмодзи
+    const emojis = ['💗','💞','💕','💘','💖'];
+    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // позиционируем внутри элемента: центр + рандом смещение
+    const offsetX = (rect.width / 2) + (Math.random() * 40 - 20);
+    const offsetY = (rect.height / 2) + (Math.random() * 10 - 5);
+
+    heart.style.left = `${offsetX}px`;
+    heart.style.top  = `${offsetY}px`;
+
+    // случайный размер/время
+    const size = 14 + Math.floor(Math.random() * 16); // 14..30px
+    heart.style.fontSize = `${size}px`;
+    heart.style.opacity = '0';
+
+    element.appendChild(heart);
+
+    // удаляем через чуть больше времени чем длится анимация
+    setTimeout(() => {
+      if (heart && heart.parentNode) heart.remove();
+    }, 1000);
+  }
+}
+
+function spawnButtonHeart(btn) {
+  const heart = document.createElement("div");
+  heart.className = "btn-heart";
+
+  const emojis = ["💗", "💖", "💕", "💘"];
+  heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+  // родитель — кнопка
+  btn.style.position = "relative";
+
+  heart.style.left = "50%";
+  heart.style.top = "-8px";
+  heart.style.transform = "translateX(-50%)";
+
+  btn.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 900);
+}
+
+/* Calendar render with blocking logic */
+function renderCalendar() {
+  cal.innerHTML = '';
+  const startDate = new Date('2025-11-23T00:00:00');
+  const now = new Date();
+
+  for (let i = 1; i <= CAL_DAYS; i++) {
+    const d = document.createElement('div');
+    d.className = 'day';
+    d.dataset.day = i;
+    d.innerHTML = `<div class="num">День ${i}</div>`;
+
+    const unlockDate = new Date(startDate);
+    unlockDate.setDate(startDate.getDate() + (i - 1));
+
+    const isUnlocked = now >= unlockDate;
+
+    if (!isUnlocked) {
+      d.classList.add('locked');
+      d.addEventListener('click', () => {
+        spawnHearts(d);                    // ❤️ сердечки теперь работают
+        showLockedModal(i, unlockDate);    // модалка “подожди”
+      });
+
+    } else {
+      d.addEventListener("click", () => {
+        spawnHearts(d);                    // ❤️ сердечки на открытии
+
+        if (isAuthorMode) {
+          openDay(i);                      // режим автора
+        } else {
+          viewDay(i);                      // режим просмотра
+        }
+      });
+    }
+
+    // если есть сохраненная запись — подсветка
+    if (DIARY[i] && (DIARY[i].text || DIARY[i].image || DIARY[i].video || DIARY[i].music)) {
+      d.classList.add("filled");
+    }
+
+    installSecretTouch(d, i);              // скрытый жест включения авторского режима
+
+    cal.appendChild(d);
+  }
+}
+
+renderCalendar();
+
+/* Close modal via ESC */
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const r=document.getElementById('modal-root');
+    if(r.style.display==='block'){
+      r.style.display='none';
+      r.innerHTML='';
+    }
+  }
+});
+
+// Анимация сердечка при нажатии на любую кнопку .btn
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn");
+  if (btn) {
+      spawnButtonHeart(btn);
+  }
+
+});
+
+document.getElementById("loveClick").addEventListener("click", () => {
+  const msg = document.getElementById("loveMessage");
+  msg.classList.add("show");
+
+  // через 3 секунды плавно исчезает
+  setTimeout(() => {
+    msg.classList.remove("show");
+  }, 3000);
+});
+
+const phrases = [
+    "РРР! ❤️",
+    "Я тебя люблю ❤️",
+    "Приветик 😁",
+    "Ты такая милая 💘",
+    "Скучаю по тебе )",
+    "РРР! Это значит: ‘Я люблю тебя’ 😘",
+    "Привет, принцесса 😁",
+    "Ты делаешь меня счастливым каждый день 💓",
+    "Ты моё солнышко ☀️",
+    "Хочу обнять тебя прямо сейчас 🤗",
+    "Я рядом, всегда ❤️",
+    "Ты у меня самая красивая 😍",
+    "Ты моя вселенная 💗",
+    "Ты для меня слишком важная.",
+    "Мне так повезло, что ты есть."
+
+  ];
+
+
+
+
+  function spawnTinyDinoRandom(text) {
+    const d = document.createElement("img");
+    d.src = "dino.svg";
+    d.className = "tiny-dino";
+
+    // 🎯 идеально равномерный спавн по экрану
+    let x = Math.random() * (window.innerWidth - 60);
+    let y = Math.random() * (window.innerHeight - 60);
+
+    let opacity = 1;
+
+    d.style.left = x + "px";
+    d.style.top = y + "px";
+    document.body.appendChild(d);
+
+    // 📝 текст теперь появляется в рандомном месте рядом — это убирает “эффект правой стороны”
+    const t = document.createElement("div");
+    t.textContent = text;
+    t.style.position = "fixed";
+    t.style.left = (x + (Math.random() * 60 - 30)) + "px"; // от -30 до +30
+    t.style.top = (y + (Math.random() * 40 - 20)) + "px";  // от -20 до +20
+    t.style.color = "#a93778";
+    t.style.fontSize = "18px";
+    t.style.fontWeight = "700";
+    t.style.pointerEvents = "none";
+    t.style.zIndex = 999999;
+    document.body.appendChild(t);
+
+    // 🌸 мягкое движение
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.25 + Math.random() * 0.45;
+
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+
+    const interval = setInterval(() => {
+        x += vx;
+        y += vy;
+        opacity -= 0.0012;
+
+        d.style.left = x + "px";
+        d.style.top = y + "px";
+        d.style.opacity = opacity;
+
+        t.style.left = (parseFloat(t.style.left) + vx) + "px";
+        t.style.top = (parseFloat(t.style.top) + vy) + "px";
+        t.style.opacity = opacity;
+
+        if (
+            opacity <= 0 ||
+            x < -150 || x > window.innerWidth + 150 ||
+            y < -150 || y > window.innerHeight + 150
+        ) {
+            clearInterval(interval);
+            d.remove();
+            t.remove();
+        }
+
+    }, 16);
+}
+
+
+
+
+function spawnTinyDinoBurst() {
+  for (let i = 0; i < phrases.length; i++) {
+    setTimeout(() => {
+      const phrase = phrases[i];
+      spawnTinyDinoRandom(phrase);
+    }, i * 120); // красивая задержка между запуском
+  }
+}
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const peek = document.getElementById("dinoPeek");
+  const run  = document.getElementById("dinoRun");
+  const speech = document.getElementById("dinoSpeech");
+
+  peek.addEventListener("click", spawnTinyDinoBurst);
+run.addEventListener("click", spawnTinyDinoBurst);
+
+
+  function randomPhrase(){ return phrases[Math.floor(Math.random()*phrases.length)]; }
+
+  function showSpeech(text, x, y){
+    speech.innerText = text;
+    const pad = 10;
+    let left = Math.max(pad, Math.min(window.innerWidth - 180, x));
+    let top  = Math.max(pad, Math.min(window.innerHeight - 80, y));
+    speech.style.left = left + "px";
+    speech.style.top = top + "px";
+    speech.classList.add("show");
+    setTimeout(()=> speech.classList.remove("show"), 2200);
+  }
+
+  function actionPeek(){
+    peek.style.left = "-260px";
+
+    setTimeout(()=> {
+      peek.style.left = "6px";
+      peek.classList.add('peek');
+
+      const mouthX = 6 + 100;
+      const mouthY = window.innerHeight * 0.40 + 45;
+
+      showSpeech(randomPhrase(), mouthX, mouthY);
+    }, 240);
+
+    setTimeout(()=> {
+      peek.classList.remove('peek');
+      peek.style.left = "-300px";
+    }, 4000);
+  }
+
+  function actionRun(){
+    run.style.opacity = 1;
+    run.style.left = "-380px";
+
+    setTimeout(()=> {
+      run.style.left = "40px";
+      const mouthX = 40 + 130;
+      const mouthY = window.innerHeight - 120;
+      showSpeech("РРР ❤️❤️❤️", mouthX, mouthY);
+    }, 180);
+
+    setTimeout(()=> {
+      run.style.left = window.innerWidth + "px";
+    }, 4000);
+
+    setTimeout(()=> {
+      run.style.opacity = 0;
+      run.style.left = "-420px";
+    }, 4200);
+  }
+
+  function scheduleNext(){
+    const delay = 15000 + Math.random()*10000;
+    setTimeout(()=> {
+      (Math.random() < 0.85 ? actionPeek : actionRun)();
+      scheduleNext();
+    }, delay);
+  }
+
+  setTimeout(scheduleNext, 2500);
+
+
+
+
+document.addEventListener("click", (e) => {
+
+// ❌ если открыта ЛЮБАЯ модалка — динозавр не появляется
+const modalRoot = document.getElementById("modal-root");
+if (modalRoot && modalRoot.style.display === "block") return;
+
+if (e.cancelBubble) return;
+if (e.defaultPrevented) return;
+
+if (e.target.closest("button, input, textarea, select, a, .card, header, nav")) return;
+if (e.target.closest("#lovePopupOverlay")) return;
+if (e.target.closest("#dinoPeek") || e.target.closest("#dinoRun")) return;
+if (e.target.closest("footer")) return;
+
+(Math.random() < 0.5 ? actionPeek : actionRun)();
+});
+
+
+
+
+  window.addEventListener('resize', ()=> speech.classList.remove('show'));
+});
+
+
+const lettersList = [
+  "Я", "Т", "Е", "Б", "Я", "Л", "Ю", "Б", "Л", "Ю", "❤️"
+];
+
+const loveLines = [
+  "Я буду рядом  в любые мгновенья",
+  "В радость, в усталость, в минуты сомненья",
+
+  "Ты мой маяк среди штормов и гроз,",
+  "Рядом с тобой нет ни бед, ни угроз",
+
+  "Если ты плачешь -  тихонько приду,",
+  "Чаем согрею и крепко обниму",
+
+  "Больше тебя в этом мире - нет смысла,",
+  "Сердце моё без тебя бы зависло",
+
+  "Я не идеален, но знай что любя",
+  "Буду беречь и хранить для тебя",
+
+  "Любовь - это в дождь тебя укрывать,",
+  "Пледом накрыть и всю ночь обнимать",
+
+  "Юмор спасет нас в трудные дни",
+  "Смех - это тоже люблю, ты пойми",
+
+  "Бережно слушать, не спорить с тобой",
+  "Главное счастье, а не чей-то настрой",
+
+  "Ладить, прощать и не помнить обиды,",
+  "Вместе любые преграды осилить",
+
+  "Ювелирно ловить твой грустный взгляд",
+  "Чтобы в объятиях развеять тоску для тебя",
+
+  "И всё это — для тебя одной,",  
+  "Ты — моё счастье и моя любовь."  
+];
+
+function spawnMiniHearts(letterElem) {
+    const emojis = ["💗","💕","💖","💘","💞"];
+
+    for (let i = 0; i < 5; i++) {
+        const h = document.createElement("div");
+        h.className = "floating-heart";
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // случайное смещение
+        const offsetX = 10 + Math.random() * 25;
+        const offsetY = -5 + Math.random() * 10;
+
+        h.style.left = offsetX + "px";
+        h.style.top = offsetY + "px";
+
+        letterElem.appendChild(h);
+
+        // удалить после анимации
+        setTimeout(() => h.remove(), 1700);
+    }
+}
+
+
+function startLoveAnimation() {
+    const overlay = document.getElementById("lovePopupOverlay");
+    overlay.style.display = "flex";
+
+    const lettersBox = document.getElementById("loveLetters");
+    const textBox = document.getElementById("loveText");
+
+    lettersBox.innerHTML = "";
+    textBox.innerHTML = ""; // не используется
+
+    const rows = [];
+
+    // 1) СОЗДАЁМ СРАЗУ ВСЕ БУКВЫ БЕЗ ТЕКСТА
+    lettersList.forEach(letter => {
+        const row = document.createElement("div");
+        row.className = "love-row";
+
+        const L = document.createElement("div");
+        L.className = "love-letter";
+        L.textContent = letter;
+
+        const block = document.createElement("div");
+        block.className = "typing-block";
+
+        const l1 = document.createElement("div");
+        l1.className = "typing-line";
+
+        const l2 = document.createElement("div");
+        l2.className = "typing-line";
+
+        block.appendChild(l1);
+        block.appendChild(l2);
+
+        row.appendChild(L);
+        row.appendChild(block);
+
+        lettersBox.appendChild(row);
+
+        rows.push({ L, l1, l2 });
+    });
+
+    // 2) Анимация печати для букв (последовательно)
+    let index = 0;
+
+    function typeLine(fullText, container, cb) {
+        let i = 0;
+
+        function step() {
+            container.textContent = fullText.substring(0, i);
+            i++;
+
+            if (i <= fullText.length) {
+                setTimeout(step, 60);
+            } else {
+                cb && cb();
+            }
+        }
+        step();
+    }
+
+    function next() {
+      if (index >= rows.length) {
+
+// Добавляем пульсирующее сердце
+setTimeout(() => {
+    const lastRow = rows[rows.length - 1];
+
+    // 💥 Запуск фонтанчика мини-сердечек
+    spawnMiniHearts(lastRow.L);
+}, 260);
+
+return;
+}
+
+
+
+
+        const row = rows[index];
+        const letter = row.L;
+
+        // 🔥 Делаем букву активной
+        letter.classList.add("active");
+
+        const text1 = loveLines[index * 2];
+        const text2 = loveLines[index * 2 + 1];
+
+        typeLine(text1, row.l1, () => {
+            typeLine(text2, row.l2, () => {
+                
+
+                index++;
+                setTimeout(next, 350);
+            });
+        });
+    }
+
+    next();
+}
+
+
+
+document.getElementById("popupCloseBtn")?.addEventListener("click", () => {
+    document.getElementById("lovePopupOverlay").style.display = "none";
+});
+
+
+// Клик по фону — закрыть
+document.getElementById("lovePopupOverlay").addEventListener("click", e => {
+    if (e.target.id === "lovePopupOverlay") {
+        e.target.style.display = "none";
+    }
+});
+
+
+const HEART_THOUGHTS = [
+  {
+    num: 49,
+    img: "images/1.jpg",
+    her: "Я вижу любовь в твоих глазах",
+    me: "Потому что ты смотришь на меня так, как никто никогда не смотрел"
+  },
+  {
+    num: 84,
+    img: "images/2.jpg",
+    her: "Ты будишь во мне страсть",
+    me: "Я хочу, чтобы рядом со мной ты чувствовала и страсть, и спокойствие"
+  },
+  {
+    num: 88,
+    img: "images/4.jpg",
+    her: "Для меня наслаждение быть с тобой",
+    me: "Быть с тобой — это то, чего мне действительно хочется."
+  },
+  {
+    num: 82,
+    img: "images/5.jpg",
+    her: "Ты всегда в моих мыслях",
+    me: "Значит, мы думаем друг о друге одновременно"
+  },
+  {
+    num: 59,
+    img: "images/6.jpg",
+    her: "Когда мы вместе, время не имеет значения",
+    me: "Потому что когда ты рядом, я хочу, чтобы этот момент длился дольше"
+  },
+  {
+    num: 24,
+    img: "images/7.jpg",
+    her: "Я могу доверять тебе",
+    me: "И я никогда не подведу это доверие"
+  },
+  {
+    num: 39,
+    img: "images/8.jpg",
+    her: "Мое сердце бьется ради тебя",
+    me: "Я рядом, и ты никогда не будешь одна❤️"
+  },
+  {
+    num: 81,
+    img: "images/9.jpg",
+    her: "Ты мой самый лучший друг",
+    me: "Быть твоим самым лучшим другом для меня — большая честь. Люблю тебя сильно сильно💘❤️❤️"
+  },
+  {
+    num: 78,
+    img: "images/10.jpg",
+    her: "Ты самый нежный",
+    me: "Потому что рядом с тобой я могу быть таким"
+  },
+  {
+    num: 50,
+    img: "images/11.jpg",
+    her: "Я люблю твою улыбку",
+    me: "Тогда я буду стараться дарить её тебе чаще😁😁😁"
+  },
+  {
+    num: 90,
+    img: "images/12.jpg",
+    her: "Я могу задавать тебе дурацкие вопросы",
+    me: "Я люблю все твои вопросы. Даже самые дурацкие😁❤️❤️"
+  },
+  {
+    num: 8,
+    img: "images/13.jpg",
+    her: "От страсти к тебе я теряю голову",
+    me: "Значит, между нами то, что невозможно контролировать.И меня это заводит💓❤️💘"
+  },
+  {
+    num: 44,
+    img: "images/14.jpg",
+    her: "Твоя поддержка - все для меня",
+    me: "Ты можешь опереться на меня в любой момент"
+  },
+  {
+    num: 1,
+    img: "images/15.jpg",
+    her: "Счастье - это быть с тобой",
+    me: "Я хочу, чтобы рядом со мной ты всегда чувствовала это❤️😌"
+  },
+  {
+    num: 70,
+    img: "images/16.jpg",
+    her: "Ты умеешь находить нужные слова",
+    me: "Потому что ты вдохновляешь меня на них"
+  },
+  {
+    num: 30,
+    img: "images/17.jpg",
+    her: "Когда ты рядом, мир вокруг расцветает",
+    me: "Потому что с тобой всё становится живым"
+  },
+  {
+    num: 21,
+    img: "images/18.jpg",
+    her: "Я никогда не боюсь, ведь ты со мной",
+    me: "Ты можешь ничего и никого не бояться, ведь я с тобой малышка❤️💓💘"
+  },
+  {
+    num: 76,
+    img: "images/20.jpg",
+    her: "Ты учишь меня любить",
+    me: "И я учусь у тебя"
+  },
+  {
+    num: 4,
+    img: "images/21.jpg",
+    her: "Ты всегда чувствуешь мое настроение",
+    me: "Я просто внимательно к тебе❤️😌"
+  },
+  {
+    num: 95,
+    img: "images/22.jpg",
+    her: "Мы с тобой классно смотримся вместе",
+    me: "Я тоже так считаю😁😁😁❤️❤️❤️"
+  },
+  {
+    num: 86,
+    img: "images/24.jpg",
+    her: "Ты мой самый прекрасный сон",
+    me: "Мне нравится быть тем, о ком ты так чувствуешь❤️❤️❤️. Я тебя люблю❤️"
+  },
+  {
+    num: 62,
+    img: "images/25.jpg",
+    her: "Все стало прекрасно с твоим появлением",
+    me: "Я счастлив, что смог сделать твой мир светлее"
+  },
+  {
+    num: 9,
+    img: "images/26.jpg",
+    her: "Мы можем все, когда мы вместе",
+    me: "Да да все все все, ты и я сможем что угодно😁😁😁💘💘💘💘"
+  },
+  {
+    num: 41,
+    img: "images/27.jpg",
+    her: "Ты всегда прекрасно выглядишь",
+    me: "Ты выглядишь просто сногшибательно и я рад что это красота выбрала меня😁💘❤️"
+  },
+  {
+    num: 61,
+    img: "images/28.jpg",
+    her: "Твоя любовь меня бережет",
+    me: "Потому что ты для меня бесконечно важна❤️💖💘"
+  },
+  {
+    num: 77,
+    img: "images/29.jpg",
+    her: "Люблю слушать твой голос",
+    me: "Я хочу, чтобы мой голос касался тебя😘😉"
+  },{
+    num: 85,
+    img: "images/30.jpg",
+    her: "Ты как магнит, меня тянет к тебе",
+    me: "Моё тело и сердце выбирают тебя и мне нравится, что нас так тянет друг к другу😘😘💘💘❤️😁😁😁😁💞"
+  },
+  {
+    num: 48,
+    img: "images/33.jpg",
+    her: "Ты самый удивительный человек на Земле",
+    me: "И я хочу удивлять тебя снова и снова😁"
+  },
+  {
+    num: 7,
+    img: "images/34.jpg",
+    her: "Я могу быть собой, когда ты рядом",
+    me: "Рядом со мной тебе не нужно прятаться❤️😉💖💞😌"
+  },
+  {
+    num: 42,
+    img: "images/35.jpg",
+    her: "Ты можешь позвонить, чтобы сказать, что любишь меня",
+    me: "Я позвоню, ты тоже можешь (944773366)😂💖💘💞. И да я люблю тебя чонам💖💖💘"
+  },
+  {
+    num: 46,
+    img: "images/36.jpg",
+    her: "Благодаря тебе я становлюсь лучше",
+    me: "Мы растём вместе💞"
+  },
+  {
+    num: 72,
+    img: "images/37.jpg",
+    her: "С тобой хорошо в любом месте",
+    me: "Те же чувства любимая. С тобой где угодно💞💘💖 "
+  },
+  {
+    num: 64,
+    img: "images/38.jpg",
+    her: "Когда я беру тебя за руку, мне становится легко",
+    me: "Тогда сожми ее сильно и никогда не отпускай❤️"
+  },
+  {
+    num: 5,
+    img: "images/39.jpg",
+    her: "Ты любишь меня со всеми моими недостатками",
+    me: "Со всем, что в тебе есть — и хорошим, и сложным😁😁😁😉❤️❤️❤️"
+  },
+  {
+    num: 47,
+    img: "images/40.jpg",
+    her: "На тебя невозможно долго обижаться",
+    me: "Значит твоя любовь сильнее обид и я очень рад этому❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️"
+  },
+  {
+    num: 35,
+    img: "images/41.jpg",
+    her: "Каждый миг с тобой наполнен радостью",
+    me: "Я хочу, чтобы так было всегда"
+  },
+  {
+    num: 51,
+    img: "images/42.jpg",
+    her: "В книге моей жизни лучшие главы о тебе",
+    me: "Тогда давай сделаем продолжение ещё ярче❤️💘💞"
+  },
+  {
+    num: 45,
+    img: "images/43.jpg",
+    her: "Твои шутки очень смешные",
+    me: "Рад, что могу тебя радовать😁😁😁"
+  },
+  {
+    num: 100,
+    img: "images/44.jpg",
+    her: "Хочу, чтобы моя жизнь принадлежала тебе",
+    me: "Я хочу заботиться о тебе и быть твоим домом❤️❤️❤️"
+  },
+  {
+    num: 37,
+    img: "images/45.jpg",
+    her: "Я не понимаю, как можно жить без тебя",
+    me: "И не нужно"
+  },
+  {
+    num: 53,
+    img: "images/46.jpg",
+    her: "Ты заботишься обо мне и ничего не требуешь взамен",
+    me: "Потому что я люблю тебя❤️, а не жду чего-то взамен"
+  },
+  {
+    num: 65,
+    img: "images/47.jpg",
+    her: "Ты делаешь нашу жизнь счастливой",
+    me: "Мы делаем её счастливой вместе💞💞💞"
+  },
+  {
+    num: 18,
+    img: "images/48.jpg",
+    her: "Ты даешь мне уверенность в себе",
+    me: "Я верю в тебя больше, чем ты думаешь😌❤️😘"
+  },
+  {
+    num: 60,
+    img: "images/49.jpg",
+    her: "Тебе интересны все мелочи моей жизни",
+    me: "Мне хочется знать о тебе всё — даже самое маленькое❤️"
+  },
+  {
+    num: 89,
+    img: "images/50.jpg",
+    her: "Ты можешь оторваться от любых дел, чтобы побыть со мной",
+    me: "Потому что ты для меня важнее любых дел😌❤️❤️"
+  },
+  {
+    num: 52,
+    img: "images/51.jpg",
+    her: "Ты всегда знаешь, чем меня порадовать",
+    me: "Я стараюсь❤️"
+  },
+  {
+    num: 57,
+    img: "images/52.jpg",
+    her: "У тебя есть ключи к моему сердцу",
+    me: "Я буду хранить его очень аккуратно❤️💖"
+  },
+  {
+    num: 17,
+    img: "images/53.jpg",
+    her: "Нет никого прекраснее тебя",
+    me: "Потому что я твой"
+  },
+  {
+    num: 31,
+    img: "images/54.jpg",
+    her: "Мы - идеальная пара",
+    me: "Абсолютно согласен😁😁😁😌❤️❤️❤️"
+  },
+  {
+    num: 13,
+    img: "images/55.jpg",
+    her: "Ты понимаешь меня с полуслова",
+    me: "Мне важно слышать тебя даже без слов❤️"
+  },
+  {
+    num: 34,
+    img: "images/56.jpg",
+    her: "Ты понимаешь меня, даже когда я ною",
+    me: "Можешь ныть сколько угодно, главное не держи в себе. P.S. Если често я не помню чтобы ты ныла😂😅"
+  },
+  {
+    num: 75,
+    img: "images/57.jpg",
+    her: "Глядя в твои глаза я понимаю: мои мечты сбылись",
+    me: "Наши мечты просто встретились💫💓💖💘"
+  },
+  {
+    num: 92,
+    img: "images/59.jpg",
+    her: "Мне помогают твои советы",
+    me: "Я всегда подскажу и поддержу"
+  },
+  {
+    num: 26,
+    img: "images/60.jpg",
+    her: "Когда я с тобой, все остальное не имеет значения",
+    me: "Ты для меня - самое важное❤️💘💘"
+  },
+  {
+    num: 2,
+    img: "images/61.jpg",
+    her: "С тобой никогда не скучно",
+    me: "Никогда😁😁😁"
+  },
+  {
+    num: 94,
+    img: "images/62.jpg",
+    her: "Ты мое солнышко",
+    me: "Я буду светить для тебя каждый день и греть в холодные вечера"
+  },
+  {
+    num: 55,
+    img: "images/63.jpg",
+    her: "При взгляде на тебя мое сердце замирает",
+    me: "Я чувствую то же самое, когда смотрю на тебя😍💘💘💘"
+  },
+  {
+    num: 20,
+    img: "images/64.jpg",
+    her: "Ты всегда чувствуешь, если мне плохо",
+    me: "Я хочу быть тем, кто поддержит тебя первым❤️"
+  },
+  {
+    num: 40,
+    img: "images/65.jpg",
+    her: "Ты веришь в меня",
+    me: "Я буду верить в тебя при любых обстоятельствах"
+  },
+  {
+    num: 36,
+    img: "images/66.jpg",
+    her: "Лучшая ночь - та, что мы проводим вместе",
+    me: "С тобой ночь — это не время, а ощущение💘❤️😍"
+  },
+  {
+    num: 96,
+    img: "images/67.jpg",
+    her: "Все мои знакомые от тебя в восторге",
+    me: "Я хочу быть тем, кем ты можешь гордиться"
+  },
+  {
+    num: 28,
+    img: "images/69.jpg",
+    her: "Ты всегда слушаешь, когда я говорю",
+    me: "Мне очень нравится тебя слушать😁❤️😁💘💘"
+  },
+  {
+    num: 83,
+    img: "images/70.jpg",
+    her: "Я схожу с ума от тебя",
+    me: "Значит, между нами настоящая страсть😁😁😁😁😁😁😁😁😁😁"
+  },
+  {
+    num: 101,
+    img: "images/73.jpg",
+    her: "Причины бесконечны, но важнее всего то, что я люблю тебя, потому что не могу не любить!!!",
+    me: "Я принимаю твою любовь и отвечаю тебе тем же - полностью. Люблю тебя сильно сильно моя морковка💘❤️❤️💘"
+  },
+  {
+    num: 38,
+    img: "images/74.jpg",
+    her: "Ты хотя бы делаешь вид, что слушаешься моего совета",
+    me: "Потому что твои советы мне небезразличны"
+  },
+  {
+    num: 15,
+    img: "images/76.jpg",
+    her: "Мы можем говорить обо всем и ни о чем",
+    me: "Наши разговоры - это мой покой❤️❤️😌"
+  },
+  {
+    num: 66,
+    img: "images/77.jpg",
+    her: "Ты меня заводишь",
+    me: "Вай тобааа мошин ми ту😂😂😂😂(просто шучу). Хотя ты даже не представляешь, что ты со мной делаешь😅😂😘😘😁😁💘💘"
+  },
+  {
+    num: 56,
+    img: "images/78.jpg",
+    her: "Ты мое самое дорогое сокровище",
+    me: "Ты для меня бесценна💘❤️❤️"
+  },
+  {
+    num: 29,
+    img: "images/79.jpg",
+    her: "Вместе мы можем творить чудеса",
+    me: "И мы будем😁😁😁"
+  },
+  {
+    num: 25,
+    img: "images/80.jpg",
+    her: "Ты всегда помогаешь мне, если нужно",
+    me: "И от этого мне только лучше и радостнее😁😘😘"
+  },
+  {
+    num: 10,
+    img: "images/81.jpg",
+    her: "Самый лучший день, проведенный с тобой",
+    me: "Хочу, чтобы таких дней было бесконечно много❤️❤️❤️"
+  },
+  {
+    num: 58,
+    img: "images/82.jpg",
+    her: "Иногда мне просто необходимо тебя обнять",
+    me: "Иди ко мне😁😁😁"
+  },
+  {
+    num: 19,
+    img: "images/83.jpg",
+    her: "Ты знаешь, как подарить мне счастье",
+    me: "Всегда буду стараться"
+  },
+  {
+    num: 69,
+    img: "images/84.jpg",
+    her: "Мы знаем самые прекрасные стороны любви",
+    me: "И я хочу узнавать её с тобой дальше"
+  },
+  {
+    num: 74,
+    img: "images/86.jpg",
+    her: "Хочу не выпускать тебя из объятий",
+    me: "Пусть время остановится в этот момент❤️❤️❤️❤️❤️"
+  },
+  {
+    num: 97,
+    img: "images/87.jpg",
+    her: "Ты умеешь утешить, когда мне грустно",
+    me: " Я рядом, чтобы разделить с тобой любые чувства😌❤️💖"
+  },
+  {
+    num: 93,
+    img: "images/88.jpg",
+    her: "Ты знаешь мои тайны и хранишь их",
+    me: "Я храню не только твои тайны, я храню тебя"
+  },
+  {
+    num: 91,
+    img: "images/89.jpg",
+    her: "Всё, что мне нужно, знать, что ты рядом",
+    me: "Я рядом при любых обстоятельствах моя милая сахарная булочка❤️❤️❤️"
+  },
+  {
+    num: 22,
+    img: "images/91.jpg",
+    her: "Ты всегда на моей стороне",
+    me: "Ну это естественно ты же мое все, моя душа❤️❤️💖❤️❤️"
+  },
+  {
+    num: 99,
+    img: "images/92.jpg",
+    her: "Наши желания так часто совпадают",
+    me: "Мне нравится хотеть одного и того же с тобой😁❤️💖"
+  },
+  {
+    num: 14,
+    img: "images/93.jpg",
+    her: "Ты никогда не скажешь, что слышишь эту историю в 10-й раз",
+    me: "Мне нравится слушать тебя, даже если я уже знаю каждое слово❤️😁"
+  },
+  {
+    num: 23,
+    img: "images/94.jpg",
+    her: "С тобой так приятно поболтать о чем угодно",
+    me: "Мне просто хорошо рядом с тобой, даже в самых простых разговорах❤️"
+  },
+  {
+    num: 12,
+    img: "images/96.jpg",
+    her: "Я тебе нравлюсь, даже когда ворчу",
+    me: "Ты мне нравишся в любом состоянии. Я тебя  очень сильно люблю❤️❤️❤️❤️❤️💖💓"
+  },
+  {
+    num: 67,
+    img: "images/97.jpg",
+    her: "Я хочу, чтобы мы всегда были вместе",
+    me: "Я хочу просыпаться, засыпать и терять голову - только с тобой😍❤️😁"
+  },
+  {
+    num: 63,
+    img: "images/99.jpg",
+    her: "Ты можешь сделать ярким любой самый хмурый день",
+    me: "Потому что ты - моё счастье❤️"
+  },
+  {
+    num: 87,
+    img: "images/101.jpg",
+    her: "При тебе можно не бояться выглядит глупо",
+    me: "Выгляди как хочешь. В любом случае ты самая самая😍😍😍💓💓💓"
+  },
+  {
+    num: 79,
+    img: "images/103.jpg",
+    her: "Я люблю всё, что ты делаешь",
+    me: "Стараюсь для тебя одной Шукрончик😁😁❤️❤️❤️"
+  },
+  {
+    num: 3,
+    img: "images/105.jpg",
+    her: "Ты знаешь как заставить меня улыбнуться",
+    me: "Потому что я знаю: стоит тебе улыбнуться - и я уже счастлив😁"
+  },
+  {
+    num: 54,
+    img: "images/107.jpg",
+    her: "Ты поймешь, если я забуду о чем-то важном",
+    me: "Конечно пойму. Я рядом, чтобы поддерживать, а не упрекать"
+  },
+  {
+    num: 71,
+    img: "images/108.jpg",
+    her: "Твое счастье важнее всего для меня",
+    me: "Когда ты счастлива - я счастлив вдвойне"
+  },
+  {
+    num: 16,
+    img: "images/110.jpg",
+    her: "Ты моё мое вдохновение",
+    me: "А ты моё❤️"
+  },
+  {
+    num: 27,
+    img: "images/111.jpg",
+    her: "От одной твоей улыбки пропадает вся моя грусть",
+    me: "Я рад, что могу забирать у тебя грусть😁😁😁❤️❤️❤️"
+  },
+  {
+    num: 68,
+    img: "images/113.jpg",
+    her: "Ты всегда радуешь меня просто тем, что ты есть",
+    me: "Значит, мы нужны друг другу больше, чем кажется💘"
+  },
+  {
+    num: 33,
+    img: "images/115.jpg",
+    her: "Мысль о тебе наполняет любовью каждый миг",
+    me: "Тогда я буду той мыслью, к которой ты возвращаешься снова и снова❤️"
+  }
+];
+
+const heartMask = [
+  "001110011100",
+  "011110011110",
+  "111111111111",
+  "111111111111",
+  "111111111111",
+  "011111111110",
+  "001111111100",
+  "000111111000",
+  "000011110000"
+];
+
+function openImageViewer(src) {
+  // защита от повторного открытия
+  if (document.querySelector(".image-viewer")) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "image-viewer";
+
+  const img = document.createElement("img");
+  img.src = src;
+
+  const close = document.createElement("div");
+  close.className = "image-viewer-close";
+  close.textContent = "✕";
+
+  overlay.appendChild(img);
+  overlay.appendChild(close);
+  document.body.appendChild(overlay);
+
+  let scale = 1;
+  let posX = 0;
+  let posY = 0;
+  let startX = 0;
+  let startY = 0;
+  let dragging = false;
+
+  function update() {
+    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  }
+
+  // 🖱 zoom мышью
+  overlay.addEventListener("wheel", e => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.15 : -0.15;
+    scale = Math.min(Math.max(1, scale + delta), 4);
+    update();
+  }, { passive:false });
+
+  // 🖐 drag
+  img.addEventListener("mousedown", e => {
+    dragging = true;
+    startX = e.clientX - posX;
+    startY = e.clientY - posY;
+  });
+
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    posX = e.clientX - startX;
+    posY = e.clientY - startY;
+    update();
+  });
+
+  window.addEventListener("mouseup", () => dragging = false);
+
+  // 📱 touch (pinch + drag)
+  let lastDist = null;
+  let lastTouchX = null;
+  let lastTouchY = null;
+
+  overlay.addEventListener("touchmove", e => {
+  // 🔍 pinch zoom
+  if (e.touches.length === 2) {
+    e.preventDefault();
+
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (lastDist) {
+      scale += (dist - lastDist) * 0.005;
+      scale = Math.min(Math.max(1, scale), 4);
+      update();
+    }
+
+    lastDist = dist;
+    return;
+  }
+
+  // 🖐 drag одним пальцем
+  if (e.touches.length === 1 && scale > 1) {
+    e.preventDefault();
+
+    const touch = e.touches[0];
+
+    if (lastTouchX !== null) {
+      posX += touch.clientX - lastTouchX;
+      posY += touch.clientY - lastTouchY;
+      update();
+    }
+
+    lastTouchX = touch.clientX;
+    lastTouchY = touch.clientY;
+  }
+}, { passive:false });
+
+
+overlay.addEventListener("touchend", () => {
+  lastDist = null;
+  lastTouchX = null;
+  lastTouchY = null;
+});
+
+
+  // ❌ закрытие
+  close.onclick = () => overlay.remove();
+  overlay.onclick = e => {
+    if (e.target === overlay) overlay.remove();
+  };
+}
+
+
+function openHeartThought(data) {
+  const root = document.getElementById("modal-root");
+  root.style.display = "block";
+
+  root.innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal card">
+        <img 
+        src="${data.img}" 
+        style="width:100%;border-radius:14px;cursor:zoom-in;"
+        onclick="openImageViewer('${data.img}')"
+      >
+
+
+        <p style="margin-top:14px;font-family:'Dancing Script';font-size:22px;text-align:center;">
+          ${data.her}
+        </p>
+
+        <hr style="margin:12px 0;border:none;border-top:1px dashed #f1c5da">
+
+        <p style="color:#6b2650;font-size:16px;">
+          ${data.me}
+        </p>
+
+        <div class="actions">
+          <button class="btn" onclick="closeModalSmooth()">Закрыть 💗</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+
+function renderHeartGrid(){
+  const grid = document.getElementById("heartGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+  let index = 0;
+
+  HEART_THOUGHTS.forEach(data => {
+      const div = document.createElement("div");
+      div.className = "cell";
+
+      const img = document.createElement("img");
+      img.src = data.img;
+
+      div.appendChild(img);
+      div.style.opacity = 1; // важно
+      div.addEventListener("click", () => openHeartThought(data));
+
+      grid.appendChild(div);
+    });
+    return;
+}
+
+document.addEventListener("DOMContentLoaded", renderHeartGrid);
+
+// Закрытие модалки по клику вне окна
+document.addEventListener("click", function (e) {
+  const root = document.getElementById("modal-root");
+  if (!root || root.style.display !== "block") return;
+
+  const backdrop = root.querySelector(".modal-backdrop");
+  const modal = root.querySelector(".modal");
+
+  if (!backdrop || !modal) return;
+
+  // если кликнули ИМЕННО по фону, а не по модалке
+  if (e.target === backdrop) {
+    closeModalSmooth();
+  }
+});
+
+</script>
+
+</body>
+</html>
